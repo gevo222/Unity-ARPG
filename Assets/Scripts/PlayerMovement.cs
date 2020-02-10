@@ -6,7 +6,7 @@ using UnityEngine.AI;
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField]
-    private Camera camera;
+    private Camera cam;
     private NavMeshAgent agent;
 
     void Start()
@@ -18,11 +18,17 @@ public class PlayerMovement : MonoBehaviour
     {
         if (Input.GetMouseButton(0))
         {
-            Ray ray = camera.ScreenPointToRay(Input.mousePosition);
+            Ray ray = cam.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit, 100))
             {
                 agent.SetDestination(hit.point);
+
+                var interactions = hit.transform.gameObject.GetComponentsInChildren<Interaction>();
+                foreach (var i in interactions)
+                {
+                    i.Event.Invoke();
+                }
             }
         }
     }
