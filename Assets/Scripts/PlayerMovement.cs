@@ -9,6 +9,9 @@ public class PlayerMovement : MonoBehaviour
     private Camera cam;
     private NavMeshAgent agent;
 
+    [SerializeField]
+    private float interactDistance;
+
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
@@ -22,13 +25,15 @@ public class PlayerMovement : MonoBehaviour
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit, 100))
             {
-                agent.SetDestination(hit.point);
-
                 var interactions = hit.transform.gameObject.GetComponentsInChildren<Interaction>();
                 foreach (var i in interactions)
                 {
-                    i.Event.Invoke();
+                    if (Vector3.Distance(transform.position, hit.transform.position) <= interactDistance)
+                    {
+                        i.Event.Invoke();
+                    }
                 }
+                agent.SetDestination(hit.point);
             }
         }
     }

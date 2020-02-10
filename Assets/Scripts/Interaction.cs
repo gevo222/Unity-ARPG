@@ -8,6 +8,14 @@ public class InteractEvent : UnityEvent { }
 
 public class Interaction : MonoBehaviour
 {
-    private InteractEvent _Event = new InteractEvent();
-    public InteractEvent Event { get; }
+    private InteractEvent _Event;
+    public InteractEvent Event { get; private set; }
+
+    void Start()
+    {
+        if (Event == null)
+            Event = new InteractEvent();
+
+        Event.AddListener(() => Debug.Log(string.Format("Interacted with object at {0}", transform.position)));
+    }
 }
