@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+
 public class CameraMovement : MonoBehaviour
 {
     [SerializeField]
@@ -12,9 +13,8 @@ public class CameraMovement : MonoBehaviour
     [Range(0.01f,1.0f)]
     private float smoothingFactor = 1.0f;
 
-    // Update is called once per frame
     void Update ()
     {
-        this.transform.position = Vector3.Lerp(this.transform.position, player.transform.position + offset, smoothingFactor);
+        transform.position = Vector3.Lerp(transform.position, player.transform.position + offset, smoothingFactor);
     }
 }
