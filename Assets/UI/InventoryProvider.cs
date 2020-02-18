@@ -6,10 +6,8 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
 
-public class InventoryInteraction :
-	MonoBehaviour,
-	IPointerClickHandler
-{
+public class InventoryProvider : MonoBehaviour {
+
 	[SerializeField, ReadOnly]
 	public int        INV_WIDTH, INV_HEIGHT;
 	[SerializeField, ReadOnly]
@@ -17,28 +15,17 @@ public class InventoryInteraction :
 
 	private int             GRID_SIZE;
 	private RectTransform   grid;
-	private Highlight       hover;
-	private List<Highlight> backgrounds;
+	public  Highlight       hover { get; private set; }
 
 	void Start(){
 		grid       = GetComponent<RectTransform>();
-		GRID_SIZE  = (int) (grid.rect.width - (INV_WIDTH + 1)) / INV_WIDTH;
+		GRID_SIZE  = (int) (grid.rect.width - INV_WIDTH - 1) / INV_WIDTH;
 		hover      = new Highlight(this);
-
-		hover.color = new Color(1.0f, 0, 0, 0.08f);
-		hover.size = new Vector2Int(2,4);
 	}
 
-	void Update(){
-		var gridPos = ToGrid(Input.mousePosition);
-		hover.position = gridPos;
-	}
+	void Update(){}
 
-	public void OnPointerClick(PointerEventData data){
-		var gridPos = ToGrid(data.position);
-	}
-
-	private Vector2 Localize(Vector2 input){
+	public Vector2 Localize(Vector2 input){
 		Vector2 pos;
 		RectTransformUtility.ScreenPointToLocalPointInRectangle(
 			grid, input, Camera.main, out pos
@@ -46,24 +33,23 @@ public class InventoryInteraction :
 		return pos;
 	}
 
-	private Vector2Int ToGrid(Vector2 input){
+	public Vector2Int ToGrid(Vector2 input, Vector2 offset){
 		Vector2 local = Localize(input);
-		var x = grid.rect.width/2 + local.x;
-		var y = grid.rect.height  - local.y;
-		var gridX = Mathf.FloorToInt(x / grid.rect.width * INV_WIDTH);
-		var gridY = Mathf.FloorToInt(y / grid.rect.height * INV_HEIGHT);
-		return new Vector2Int(gridX, gridY);
+		return new Vector2Int(
+			Mathf.FloorToInt(INV_WIDTH * (local.x / grid.rect.width + 0.5f)),
+			Mathf.FloorToInt(INV_HEIGHT * (1 - local.y / grid.rect.height))
+		);
 	}
 
 
-	class Highlight {
+	public class Highlight {
 
-		private InventoryInteraction inv;
-		private GameObject           obj;
-		private Image                image;
-		private RectTransform        rectTransform;
+		private InventoryProvider inv;
+		private GameObject        obj;
+		private Image             image;
+		private RectTransform     rectTransform;
 
-		public Highlight(InventoryInteraction inv){
+		public Highlight(InventoryProvider inv){
 			this.inv = inv;
 			this.obj = Object.Instantiate(inv.HIGHLIGHT_PREFAB, Vector3.zero, Quaternion.identity);
 			this.image = obj.GetComponent<Image>();
@@ -79,10 +65,7 @@ public class InventoryInteraction :
 					hidden = true;
 				} else {
 					hidden = false;
-					value = _position = new Vector2Int(
-						System.Math.Min(value.x, inv.INV_WIDTH - size.x),
-						System.Math.Min(value.y, inv.INV_HEIGHT - size.y)
-					);
+					_position = value = ClampedPosition(value);
 					rectTransform.anchoredPosition = new Vector3(
 						 (value.x + (inv.GRID_SIZE * value.x) + 1),
 						-(value.y + (inv.GRID_SIZE * value.y) + 1),
@@ -91,6 +74,10 @@ public class InventoryInteraction :
 				}
 			}
 		}
+		public Vector2 pixelPosition {
+			get { return rectTransform.anchoredPosition; }
+		}
+
 
 		private Vector2Int _size;
 		public  Vector2Int size {
@@ -102,6 +89,9 @@ public class InventoryInteraction :
 					value.y + (inv.GRID_SIZE * value.y) - 1
 				);
 			}
+		}
+		public Vector2 pixelSize {
+			get { return rectTransform.sizeDelta; }
 		}
 
 		private bool _hidden = false;
@@ -122,6 +112,13 @@ public class InventoryInteraction :
 
 		public void Destroy(){
 			Object.Destroy(obj);
+		}
+
+		private Vector2Int ClampedPosition(Vector2Int pos){
+			return new Vector2Int(
+				Mathf.Clamp(pos.x, 0, inv.INV_WIDTH - size.x),
+				Mathf.Clamp(pos.y, 0, inv.INV_HEIGHT - size.y)
+			);
 		}
 
 		private bool IsOutOfBounds(Vector2Int pos){
