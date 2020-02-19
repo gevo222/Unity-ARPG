@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Unity.Collections;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.EventSystems;
 
 
 public class InventoryProvider : MonoBehaviour {
@@ -17,11 +16,11 @@ public class InventoryProvider : MonoBehaviour {
 	internal RectTransform grid;
 
 	void Awake(){
-		grid       = GetComponent<RectTransform>();
-		GRID_SIZE  = (int) (grid.rect.width - INV_WIDTH - 1) / INV_WIDTH;
+		grid      = GetComponent<RectTransform>();
+		GRID_SIZE = (int) (grid.rect.width - INV_WIDTH - 1) / INV_WIDTH;
 	}
 
-	public Vector2 Localize(Vector2 input){
+	public Vector2 ScreenToLocal(Vector2 input){
 		Vector2 pos;
 		RectTransformUtility.ScreenPointToLocalPointInRectangle(
 			grid, input, Camera.main, out pos
@@ -29,11 +28,15 @@ public class InventoryProvider : MonoBehaviour {
 		return pos;
 	}
 
-	public Vector2Int ToGrid(Vector2 input){
-		Vector2 local = Localize(input);
+	public Vector2Int ScreenToGrid(Vector2 input){
+		Vector2 local = ScreenToLocal(input);
+		return LocalToGrid(local);
+	}
+
+	public Vector2Int LocalToGrid(Vector2 input){
 		return new Vector2Int(
-			Mathf.FloorToInt(INV_WIDTH * (local.x / grid.rect.width + 0.5f)),
-			Mathf.FloorToInt(INV_HEIGHT * (1 - local.y / grid.rect.height))
+			Mathf.FloorToInt(INV_WIDTH * (input.x / grid.rect.width + 0.5f)),
+			Mathf.FloorToInt(INV_HEIGHT * (1 - input.y / grid.rect.height))
 		);
 	}
 
@@ -43,6 +46,10 @@ public class InventoryProvider : MonoBehaviour {
 		} else {
 			return new Highlight(this);
 		}
+	}
+
+	public Item AddItem(ItemDef itemDef){
+		return new Item(this, itemDef);
 	}
 }
 
@@ -80,6 +87,9 @@ public class Highlight {
 	}
 	public Vector2 pixelPosition {
 		get { return rTransform.anchoredPosition; }
+	}
+	public Vector3 localPosition {
+		get { return rTransform.localPosition; }
 	}
 
 	private Vector2Int _size;
@@ -145,4 +155,59 @@ class CenteredHighlight : Highlight {
 		);
 	}
 
+}
+
+public class Item {
+
+	private ItemDef    itemDef;
+	private Highlight  background;
+	private GameObject obj;
+
+	public Item(InventoryProvider inv, ItemDef itemDef){
+		this.itemDef    = itemDef;
+		this.background = inv.CreateHighlight();
+		background.size = itemDef.gridSize;
+		background.color = new Color(0, 0, 1.0f, 0.1f);
+
+		this.obj = Object.Instantiate(itemDef.resource, Vector3.zero, Quaternion.identity);
+		obj.transform.SetParent(inv.grid, false);
+		obj.transform.localScale = itemDef.scale;
+		AlignItem();
+	}
+
+	private bool _detached;
+	public  bool detached {
+		get { return _detached; }
+		set {
+			_detached = value;
+			background.hidden = value;
+			if(!value){
+				AlignItem();
+			}
+		}
+	}
+
+	public Vector2 itemPosition {
+		get { return obj.transform.localPosition; }
+		set {
+			if(!detached) return;
+			obj.transform.localPosition = new Vector3(
+				value.x, value.y, itemDef.position.z
+			);
+		}
+	}
+
+	public Vector2Int position {
+		get { return background.position; }
+		set { background.position = value; }
+	}
+
+	public Vector2Int size {
+		get { return itemDef.gridSize; }
+	}
+
+	private void AlignItem(){
+		obj.transform.localPosition = background.localPosition + itemDef.position;
+		obj.transform.localEulerAngles = itemDef.rotation;
+	}
 }
