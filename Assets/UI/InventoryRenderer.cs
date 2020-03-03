@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
-public class InventoryProvider : MonoBehaviour {
+public class InventoryRenderer : MonoBehaviour {
 
 	[SerializeField, ReadOnly]
 	public int        INV_WIDTH, INV_HEIGHT;
@@ -55,12 +55,12 @@ public class InventoryProvider : MonoBehaviour {
 
 public class Highlight {
 
-	protected InventoryProvider inv;
+	protected InventoryRenderer inv;
 	protected GameObject        obj;
 	protected Image             image;
 	protected RectTransform     rTransform;
 
-	public Highlight(InventoryProvider inv){
+	public Highlight(InventoryRenderer inv){
 		this.inv = inv;
 		this.obj = Object.Instantiate(inv.HIGHLIGHT_PREFAB, Vector3.zero, Quaternion.identity);
 		this.image = obj.GetComponent<Image>();
@@ -146,7 +146,7 @@ public class Highlight {
 
 class CenteredHighlight : Highlight {
 
-	public CenteredHighlight(InventoryProvider inv): base(inv) {}
+	public CenteredHighlight(InventoryRenderer inv): base(inv) {}
 
 	protected override Vector2Int ClampPosition(Vector2Int pos){
 		return new Vector2Int(
@@ -159,15 +159,17 @@ class CenteredHighlight : Highlight {
 
 public class Item {
 
+	private static Color BACKGROUND_COLOR = new Color(0, 0, 1.0f, 0.1f);
+
 	private ItemDef    itemDef;
 	private Highlight  background;
 	private GameObject obj;
 
-	public Item(InventoryProvider inv, ItemDef itemDef){
+	public Item(InventoryRenderer inv, ItemDef itemDef){
 		this.itemDef    = itemDef;
 		this.background = inv.CreateHighlight();
 		background.size = itemDef.gridSize;
-		background.color = new Color(0, 0, 1.0f, 0.1f);
+		background.color = BACKGROUND_COLOR;
 
 		this.obj = Object.Instantiate(itemDef.resource, Vector3.zero, Quaternion.identity);
 		obj.transform.SetParent(inv.grid, false);
@@ -192,18 +194,39 @@ public class Item {
 		set {
 			if(!detached) return;
 			obj.transform.localPosition = new Vector3(
-				value.x, value.y, itemDef.position.z
+				value.x, value.y, itemDef.position.z - 10
 			);
 		}
 	}
 
 	public Vector2Int position {
 		get { return background.position; }
-		set { background.position = value; }
+		set {
+			background.position = value;
+			AlignItem();
+		}
 	}
 
 	public Vector2Int size {
 		get { return itemDef.gridSize; }
+	}
+
+	public bool ContainsPoint(Vector2Int test){
+		return (
+			test.x >= position.x &&
+			test.y >= position.y &&
+			test.x < (position.x + size.x) &&
+			test.y < (position.y + size.y)
+		);
+	}
+
+	public bool Overlaps(Highlight target){
+		return (
+			position.x < target.position.x + target.size.x &&
+			position.x + size.x > target.position.x &&
+			position.y < target.position.y + target.size.y &&
+			position.y + size.y > target.position.y
+		);
 	}
 
 	private void AlignItem(){
