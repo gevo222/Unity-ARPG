@@ -4,14 +4,14 @@ using UnityEngine.AI;
 [RequireComponent (typeof (NavMeshAgent))]
 [RequireComponent (typeof (Animator))]
 public class LocomotionSimpleAgent : MonoBehaviour {
-    Animator anim;
+    //Animator anim;
     NavMeshAgent agent;
     Vector2 smoothDeltaPosition = Vector2.zero;
     Vector2 velocity = Vector2.zero;
 
     void Start ()
     {
-        anim = GetComponent<Animator> ();
+       // anim = GetComponent<Animator> ();
         agent = GetComponent<NavMeshAgent> ();
         // Don’t update position automatically
         agent.updatePosition = false;
@@ -37,14 +37,14 @@ public class LocomotionSimpleAgent : MonoBehaviour {
         bool shouldMove = velocity.magnitude > 0.5f && agent.remainingDistance > agent.radius;
 
         // Update animation parameters
-        anim.SetBool("move", shouldMove);
-        anim.SetFloat ("velx", velocity.x);
-        anim.SetFloat ("vely", velocity.y);
+        //anim.SetBool("move", shouldMove);
+        //anim.SetFloat ("velx", velocity.x);
+        //anim.SetFloat ("vely", velocity.y);
     }
 
     void OnAnimatorMove ()
     {
         // Update position to agent position
-        transform.position = agent.nextPosition;
+        // transform.position = agent.nextPosition;
     }
 }

@@ -13,8 +13,11 @@ public class CameraMovement : MonoBehaviour
     [Range(0.01f,1.0f)]
     private float smoothingFactor = 1.0f;
 
-    void Update ()
+
+
+
+    void Update()
     {
-        transform.position = Vector3.Lerp(transform.position, player.transform.position + offset, smoothingFactor);
+
     }
 }
