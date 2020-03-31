@@ -96,6 +96,7 @@ LightmapSettings:
     m_PVRFilteringAtrousPositionSigmaAO: 1
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
+    m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
   m_UseShadowmask: 1
 --- !u!196 &4
@@ -339,8 +340,9 @@ Light:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 419306658}
   m_Enabled: 1
-  serializedVersion: 9
+  serializedVersion: 10
   m_Type: 1
+  m_Shape: 0
   m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
   m_Intensity: 0.8
   m_Range: 180
@@ -653,6 +655,12 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &895605981 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3152668248250434095, guid: a492065f2ab2c5aa49fb92fa0c828d33,
+    type: 3}
+  m_PrefabInstance: {fileID: 412394530}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1084771179
 GameObject:
   m_ObjectHideFlags: 0
@@ -738,13 +746,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1084771179}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 806e0993938d1774d9c7d328bc3a5f01, type: 3}
+  m_Script: {fileID: 11500000, guid: 64440188418e18d4195057978ea09427, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  INV_WIDTH: 12
-  INV_HEIGHT: 5
-  HIGHLIGHT_PREFAB: {fileID: 3152668248250434095, guid: a492065f2ab2c5aa49fb92fa0c828d33,
-    type: 3}
 --- !u!114 &1084771184
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -754,9 +758,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1084771179}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1844947595842e2ad9fc876821523cab, type: 3}
+  m_Script: {fileID: 11500000, guid: 392417871c4c2fa33811c7bee885851d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  INV_WIDTH: 12
+  INV_HEIGHT: 5
+  HIGHLIGHT_PREFAB: {fileID: 895605981}
 --- !u!224 &1213377485 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3152668248250434088, guid: a492065f2ab2c5aa49fb92fa0c828d33,
@@ -891,8 +898,9 @@ Light:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2106239786}
   m_Enabled: 1
-  serializedVersion: 9
+  serializedVersion: 10
   m_Type: 2
+  m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Intensity: 1
   m_Range: 2.5

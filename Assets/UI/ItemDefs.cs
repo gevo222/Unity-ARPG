@@ -13,6 +13,14 @@ public static class ItemDefs {
 		gridSize : new Vector2Int(2, 3)
 	);
 
+	public static readonly ItemDef SmallDagger = new ItemDef(
+		resource : "RPG Swords/dagger_small",
+		scale    : new Vector3(80, 80, 80),
+		position : new Vector3(20, -75, -10),
+		rotation : new Vector3(90, 90, 0),
+		gridSize : new Vector2Int(1, 3)
+	);
+
 	public static readonly ItemDef Katana = new ItemDef(
 		resource : "RPG Swords/Katana",
 		scale    : new Vector3(100, 100, 100),
