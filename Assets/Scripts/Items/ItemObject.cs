@@ -9,7 +9,14 @@ using RotaryHeart.Lib.SerializableDictionary;
 public class ItemValuesDictType : SerializableDictionaryBase<string, float> { }
 public enum ItemType
 {
-    Weapon
+    Weapon,
+    Chest,
+    Boots,
+    Gloves,
+    Helmet,
+    Belt,
+    Ring,
+    Amulet
 }
 
 [Serializable]
