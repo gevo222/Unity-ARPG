@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -38,21 +39,21 @@ public class ItemObject : ScriptableObject
     public Vector2Int InvSize => invSize;
 
     public float Rarity => rarity;
-    public List<GameObject> DropsFrom => dropsFrom;
 
-
-    private void PopulateDatabase()
+    private static List<ItemObject> all = null;
+    private static void findAll()
     {
-        var itemObjectGUIDs = AssetDatabase.FindAssets("t:ItemObject", null);
+        all = new List<ItemObject>{};
+        var itemObjectGUIDs = AssetDatabase.FindAssets("t:ItemObject", new string[]{"Assets/Resources"});
         foreach (var guid in itemObjectGUIDs)
         {
-            var objectPath = AssetDatabase.GUIDToAssetPath(guid);
-            var objectData = ((GameObject) AssetDatabase.LoadMainAssetAtPath(objectPath)).GetComponent<ItemObject>();
-            if (objectData)
-            {
-                continue;
-            }
-            Debug.Log(objectPath);
+            // Resources.Load requires the path to be extensionless and relative to Assets/Resources/
+            var objectPath = Path.ChangeExtension(AssetDatabase.GUIDToAssetPath(guid), null)
+                                 .Remove(0, "Assets/Resources/".Length);
+            var objectResource = Resources.Load<ItemObject>(objectPath);
+            all.Add(objectResource);
         }
     }
+
+    public static List<ItemObject> All { get { if (all == null) findAll(); return all; } }
 }
