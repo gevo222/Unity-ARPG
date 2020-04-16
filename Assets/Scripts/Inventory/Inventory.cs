@@ -32,10 +32,9 @@ public class Inventory : MonoBehaviour {
 
 
 		// TODO: temporary hack to test items
-		ItemObject.PopulateDatabase();
-		Add( new Item(Items.items["Assets/Resources/Items/Weapons/Epic_Dagger.asset"]) );
-		Add( new Item(Items.items["Assets/Resources/Items/Weapons/Epic_Dagger.asset"]) );
-		Add( new Item(Items.items["Assets/Resources/Items/Weapons/Epic_Dagger.asset"]) );
+		Add( new Item(ItemObject.All["Items/Weapons/Epic_Dagger"]) );
+		Add( new Item(ItemObject.All["Items/Weapons/Epic_Dagger"]) );
+		Add( new Item(ItemObject.All["Items/Weapons/Epic_Dagger"]) );
 	}
 
 	public OccupiedSlot Add(Item item){
