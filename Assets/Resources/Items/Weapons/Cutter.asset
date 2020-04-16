@@ -17,7 +17,8 @@ MonoBehaviour:
   itemType: 0
   worldPrefab: {fileID: 2068844038007576259, guid: d4391fd579d4058fd996ea8412febbb0,
     type: 3}
-  uiPrefab: {fileID: 0}
+  uiPrefab: {fileID: 5252584093486802847, guid: ff0fa23db5b3e0a08b753115997f7097,
+    type: 3}
   values:
     reorderableList:
       canAdd: 1

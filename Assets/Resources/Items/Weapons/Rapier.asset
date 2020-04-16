@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 306aeee846501ab8d921f7f4345d2608, type: 3}
-  m_Name: Small_Dagger
+  m_Name: Rapier
   m_EditorClassIdentifier: 
-  name: Small Dagger
+  name: Rapier
   flavorText: 
   itemType: 0
-  worldPrefab: {fileID: 5424737887314652707, guid: 4e406c913e16b8b6d87838fc9c778a89,
+  worldPrefab: {fileID: 2686061487495461216, guid: d1fd53d963621f830b277b40fd2f6d66,
     type: 3}
-  uiPrefab: {fileID: 5521710278794266225, guid: e313de75836e97750af47545a897e500,
+  uiPrefab: {fileID: 4399329161908496830, guid: 2531c668f9efeb5cd8d0169f7a871695,
     type: 3}
   values:
     reorderableList:
@@ -45,6 +45,6 @@ MonoBehaviour:
     _keyValues: []
     _keys: []
     _values: []
-  invSize: {x: 1, y: 3}
-  rarity: 0.05
+  invSize: {x: 1, y: 4}
+  rarity: 0.01
   dropsFrom: []
