@@ -5,6 +5,14 @@ using UnityEngine;
 using UnityEditor;
 using RotaryHeart.Lib.SerializableDictionary;
 
+
+// TODO: temporary hack for references
+public class Items {
+
+	public static Dictionary<String,ItemObject> items = new Dictionary<String,ItemObject>();
+
+}
+
 [Serializable]
 public class ItemValuesDictType : SerializableDictionaryBase<string, float> { }
 public enum ItemType
@@ -26,7 +34,8 @@ public class ItemObject : ScriptableObject
     [SerializeField] private string name;
     [SerializeField, TextArea(10,5)] private string flavorText;
     [SerializeField] private ItemType itemType;
-    [SerializeField] private GameObject prefab;
+    [SerializeField] private GameObject worldPrefab;
+    [SerializeField] private GameObject uiPrefab;
     [SerializeField] private ItemValuesDictType values;
 
     [Header("Inventory")]
@@ -39,7 +48,8 @@ public class ItemObject : ScriptableObject
     public string Name => name;
     public string FlavorText => flavorText;
     public ItemType ItemType => itemType;
-    public GameObject Prefab => prefab;
+    public GameObject WorldPrefab => worldPrefab;
+    public GameObject UiPrefab => uiPrefab;
     public ItemValuesDictType Values => values;
 
     public Vector2Int InvSize => invSize;
@@ -48,13 +58,17 @@ public class ItemObject : ScriptableObject
     public List<GameObject> DropsFrom => dropsFrom;
 
 
-    private void PopulateDatabase()
+    public static void PopulateDatabase()
     {
         var itemObjectGUIDs = AssetDatabase.FindAssets("t:ItemObject", null);
         foreach (var guid in itemObjectGUIDs)
         {
             var objectPath = AssetDatabase.GUIDToAssetPath(guid);
-            var objectData = ((GameObject) AssetDatabase.LoadMainAssetAtPath(objectPath)).GetComponent<ItemObject>();
+			//Debug.Log(objectPath);
+
+            var objectData = AssetDatabase.LoadAssetAtPath(objectPath, typeof(ItemObject)) as ItemObject;
+			Items.items.Add(objectPath, objectData);
+
             if (objectData)
             {
                 continue;

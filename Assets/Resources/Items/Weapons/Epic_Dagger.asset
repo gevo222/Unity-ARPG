@@ -15,7 +15,10 @@ MonoBehaviour:
   name: Epic Dagger
   flavorText: 
   itemType: 0
-  prefab: {fileID: 296456817023901360, guid: b59f4d84e56dfff4f9bc9a23078968ce, type: 3}
+  worldPrefab: {fileID: 296456817023901360, guid: b59f4d84e56dfff4f9bc9a23078968ce,
+    type: 3}
+  uiPrefab: {fileID: 1542104006752601328, guid: 5f179d623dd2fd28e889b5ca06c6e4e1,
+    type: 3}
   values:
     reorderableList:
       canAdd: 1

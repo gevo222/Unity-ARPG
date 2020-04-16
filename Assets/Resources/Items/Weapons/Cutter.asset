@@ -15,7 +15,9 @@ MonoBehaviour:
   name: Cutter
   flavorText: 
   itemType: 0
-  prefab: {fileID: 2068844038007576259, guid: d4391fd579d4058fd996ea8412febbb0, type: 3}
+  worldPrefab: {fileID: 2068844038007576259, guid: d4391fd579d4058fd996ea8412febbb0,
+    type: 3}
+  uiPrefab: {fileID: 0}
   values:
     reorderableList:
       canAdd: 1

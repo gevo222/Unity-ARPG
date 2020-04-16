@@ -4,44 +4,54 @@ using Unity.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-
 public class Highlight {
 
-	protected InventoryRenderer inv;
+	public GameObject    obj { get; private set; }
+	public Image         image;
+	public RectTransform rt;
+
+	public Highlight(GameObject prefab, Transform parent){
+		obj = Object.Instantiate(prefab, Vector3.zero, Quaternion.identity);
+		obj.transform.SetParent(parent, false);
+		image = obj.GetComponent<Image>();
+		rt    = obj.GetComponent<RectTransform>();
+	}
+
+	public void Destroy(){
+		Object.Destroy(obj);
+	}
+}
+
+
+public class HoverHighlight {
+
+	protected InventoryRenderer renderer;
 	protected GameObject        obj;
 	protected Image             image;
-	protected RectTransform     rTransform;
+	protected RectTransform     rt;
 
-	public Highlight(InventoryRenderer inv){
-		this.inv = inv;
-		this.obj = Object.Instantiate(inv.HIGHLIGHT_PREFAB, Vector3.zero, Quaternion.identity);
-		this.image = obj.GetComponent<Image>();
-		this.rTransform = obj.GetComponent<RectTransform>();
-		obj.transform.SetParent(inv.grid, false);
+	public HoverHighlight(InventoryRenderer renderer){
+		this.renderer = renderer;
+		this.obj      = Object.Instantiate(renderer.HIGHLIGHT_PREFAB, Vector3.zero, Quaternion.identity);
+		obj.transform.SetParent(renderer.grid, false);
+
+		this.image    = obj.GetComponent<Image>();
+		this.rt       = obj.GetComponent<RectTransform>();
 	}
 
 	private Vector2Int _position;
 	public  Vector2Int position {
 		get { return _position; }
 		set {
-			if(IsOutOfBounds(value)){
-				hidden = true;
-			} else {
-				hidden = false;
-				_position = value = ClampPosition(value);
-				rTransform.anchoredPosition = new Vector3(
-					 (value.x + (inv.GRID_SIZE * value.x) + 1),
-					-(value.y + (inv.GRID_SIZE * value.y) + 1),
-					0
-				);
-			}
+			_position = renderer.ClampInsideCentered(value, size);
+			renderer.PositionOnGrid(rt, _position);
 		}
 	}
 	public Vector2 pixelPosition {
-		get { return rTransform.anchoredPosition; }
+		get { return rt.anchoredPosition; }
 	}
 	public Vector3 localPosition {
-		get { return rTransform.localPosition; }
+		get { return rt.localPosition; }
 	}
 
 	private Vector2Int _size;
@@ -49,62 +59,29 @@ public class Highlight {
 		get { return _size; }
 		set {
 			_size = value;
-			rTransform.sizeDelta = new Vector2(
-				value.x + (inv.GRID_SIZE * value.x) - 1,
-				value.y + (inv.GRID_SIZE * value.y) - 1
-			);
+			renderer.SizeForGrid(rt, value);
 		}
 	}
 	public Vector2 pixelSize {
-		get { return rTransform.sizeDelta; }
+		get { return rt.sizeDelta; }
 	}
 
 	private bool _hidden = false;
 	public  bool hidden {
 		get { return _hidden; }
 		set {
-			if(value != _hidden){
-				_hidden = value;
-				obj.SetActive(!value);
-			}
+			_hidden = value;
+			obj.SetActive(!value);
 		}
 	}
 
-	public Color color {
-		get { return image.color; }
-		set { image.color = value; }
+	public void SetNormalColor(){
+		image.color = renderer.HIGHLIGHT_NORMAL;
 	}
-
+	public void SetErrorColor(){
+		image.color = renderer.HIGHLIGHT_ERROR;
+	}
 	public void Destroy(){
 		Object.Destroy(obj);
 	}
-
-	private bool IsOutOfBounds(Vector2Int pos){
-		return (
-			pos.x < 0 ||
-			pos.y < 0 ||
-			pos.x >= inv.INV_WIDTH ||
-			pos.y >= inv.INV_HEIGHT
-		);
-	}
-
-	protected virtual Vector2Int ClampPosition(Vector2Int pos){
-		return new Vector2Int(
-			Mathf.Clamp(pos.x, 0, inv.INV_WIDTH  - size.x),
-			Mathf.Clamp(pos.y, 0, inv.INV_HEIGHT - size.y)
-		);
-	}
-}
-
-class CenteredHighlight : Highlight {
-
-	public CenteredHighlight(InventoryRenderer inv): base(inv) {}
-
-	protected override Vector2Int ClampPosition(Vector2Int pos){
-		return new Vector2Int(
-			Mathf.Clamp(pos.x - Mathf.FloorToInt(0.5f * size.x), 0, inv.INV_WIDTH  - size.x),
-			Mathf.Clamp(pos.y - Mathf.FloorToInt(0.5f * size.y), 0, inv.INV_HEIGHT - size.y)
-		);
-	}
-
 }
