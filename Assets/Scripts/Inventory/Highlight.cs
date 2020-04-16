@@ -1,17 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Collections;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class Highlight {
 
+	public static GameObject DEFAULT_PREFAB;
+	static Highlight(){
+		var path = "Assets/Prefabs/UI/Highlight.prefab";
+		DEFAULT_PREFAB = (GameObject) AssetDatabase.LoadAssetAtPath(path, typeof(GameObject));
+	}
+
 	private GameObject    obj;
 	private Image         image;
 	private RectTransform rt;
 
-	public Highlight(GameObject prefab, Transform parent){
-		obj = Object.Instantiate(prefab, Vector3.zero, Quaternion.identity);
+	public Highlight(Transform parent){
+		obj = Object.Instantiate(Highlight.DEFAULT_PREFAB, Vector3.zero, Quaternion.identity);
 		obj.transform.SetParent(parent, false);
 		image = obj.GetComponent<Image>();
 		rt    = obj.GetComponent<RectTransform>();
@@ -52,7 +59,7 @@ public class GridHighlight {
 
 	public GridHighlight(InventoryRenderer renderer){
 		this.renderer  = renderer;
-		this.highlight = new Highlight(renderer.HIGHLIGHT_PREFAB, renderer.grid);
+		this.highlight = new Highlight(renderer.grid);
 	}
 
 	private Vector2Int _position;

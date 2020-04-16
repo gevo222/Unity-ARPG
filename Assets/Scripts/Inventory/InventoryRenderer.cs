@@ -13,8 +13,6 @@ public class InventoryRenderer :
 	IPointerExitHandler
 {
 	[SerializeField, ReadOnly]
-	public GameObject HIGHLIGHT_PREFAB;
-	[SerializeField, ReadOnly]
 	public Color HIGHLIGHT_NORMAL = new Color(1, 1, 1, 0.08f);
 	[SerializeField, ReadOnly]
 	public Color HIGHLIGHT_ERROR  = new Color(1, 0, 0, 0.16f);
@@ -106,14 +104,13 @@ public class InventoryRenderer :
 
 	/* INTERNAL METHODS */
 	private void AddItem(OccupiedSlot slot){
-		var highlight = new Highlight(HIGHLIGHT_PREFAB, grid) {
+		var highlight = new Highlight(grid) {
 			color = ITEM_BACKGROUND,
 			position = GridToRealPosition(slot.position),
 			size = GridToRealSize(slot.item.size)
 		};
 
-		var obj = slot.item.CreateIcon();
-		obj.transform.SetParent(highlight.transform, false);
+		var obj = slot.item.CreateIcon(highlight.transform);
 		obj.transform.localPosition = new Vector3(
 			highlight.size.x / 2, -highlight.size.y / 2, 0
 		);

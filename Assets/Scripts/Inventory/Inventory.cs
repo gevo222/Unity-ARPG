@@ -38,7 +38,7 @@ public class Inventory : MonoBehaviour {
 			Add( new Item(ItemObject.All["Items/Weapons/Rapier"]) );
 			Add( new Item(ItemObject.All["Items/Weapons/Small_Dagger"]) );
 			Add( new Item(ItemObject.All["Items/Weapons/Cutter"]) );
-		} catch(System.Exception e){}
+		} catch(System.Exception){}
 	}
 
 	public OccupiedSlot Add(Item item){
@@ -76,8 +76,8 @@ public class Inventory : MonoBehaviour {
 	}
 
 	public Vector2Int? FirstOpenSlotFor(Vector2Int size){
-		for(int px = 0; px < WIDTH; px++){
-			for(int py = 0; py < HEIGHT; py++){
+		for(int py = 0; py < HEIGHT; py++){
+			for(int px = 0; px < WIDTH; px++){
 				var pos = new Vector2Int(px, py);
 				if(SlotFits(pos, size))
 					return pos;
@@ -92,7 +92,7 @@ public class Inventory : MonoBehaviour {
 				try {
 					if(grid[pos.x + ix, pos.y + iy]) //slot is occupied
 						return false;
-				} catch(System.IndexOutOfRangeException e){ //or out of bounds
+				} catch(System.IndexOutOfRangeException){ //or out of bounds
 					return false;
 				}
 			}

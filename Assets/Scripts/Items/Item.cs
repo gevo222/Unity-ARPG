@@ -14,8 +14,10 @@ public class Item {
 
 	public ItemType type => definition.ItemType;
 	public Vector2Int size => definition.InvSize;
-	public GameObject CreateIcon(){
+
+	public GameObject CreateIcon(Transform parent){
 		var obj = Object.Instantiate(definition.UiPrefab, Vector3.zero, Quaternion.identity);
+		obj.transform.SetParent(parent, false);
 		return obj;
 	}
 }

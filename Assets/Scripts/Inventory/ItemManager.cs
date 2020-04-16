@@ -10,7 +10,7 @@ public class ItemManager : MonoBehaviour {
 
 	private InventoryRenderer renderer;
 	private GameObject        holdingIcon;
-	private Item              holdingItem;
+	public  Item              holdingItem;
 
 	void Start(){
 		ItemManager.main = this;
@@ -64,6 +64,7 @@ public class ItemManager : MonoBehaviour {
 	void Update(){
 		if(holdingItem == null)
 			return;
+
 		var local = ScreenToLocal(Input.mousePosition);
 		holdingIcon.transform.localPosition = local;
 
@@ -84,13 +85,12 @@ public class ItemManager : MonoBehaviour {
 		}
 	}
 
-	private void PickUp(Item item){
+	public void PickUp(Item item){
 		holdingItem = item;
-		holdingIcon = item.CreateIcon();
-		holdingIcon.transform.SetParent(transform, false);
+		holdingIcon = item.CreateIcon(transform);
 	}
 
-	private void PutDown(){
+	public void PutDown(){
 		Object.Destroy(holdingIcon);
 		holdingItem = null;
 		holdingIcon = null;
