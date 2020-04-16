@@ -78,9 +78,9 @@ public class ItemManager : MonoBehaviour {
 
 		var overlap = renderer.inventory.GetOverlapType(hoverPos, holdingItem.size);
 		if(overlap == OverlapType.MULTI){
-			renderer.hover.SetErrorColor();
+			renderer.hover.UseErrorColor();
 		} else {
-			renderer.hover.SetNormalColor();
+			renderer.hover.UseNormalColor();
 		}
 	}
 

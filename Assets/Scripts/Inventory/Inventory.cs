@@ -32,9 +32,13 @@ public class Inventory : MonoBehaviour {
 
 
 		// TODO: temporary hack to test items
-		Add( new Item(ItemObject.All["Items/Weapons/Epic_Dagger"]) );
-		Add( new Item(ItemObject.All["Items/Weapons/Epic_Dagger"]) );
-		Add( new Item(ItemObject.All["Items/Weapons/Epic_Dagger"]) );
+		try {
+			Add( new Item(ItemObject.All["Items/Weapons/Epic_Dagger"]) );
+			Add( new Item(ItemObject.All["Items/Weapons/Katana"]) );
+			Add( new Item(ItemObject.All["Items/Weapons/Rapier"]) );
+			Add( new Item(ItemObject.All["Items/Weapons/Small_Dagger"]) );
+			Add( new Item(ItemObject.All["Items/Weapons/Cutter"]) );
+		} catch(System.Exception e){}
 	}
 
 	public OccupiedSlot Add(Item item){

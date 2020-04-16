@@ -25,7 +25,7 @@ public class InventoryRenderer :
 
 	public RectTransform  grid { get; private set; }
 	public HoverHighlight hover { get; private set; }
-	public int            GRID_SIZE { get; private set; }
+	public Vector2Int     GRID_SIZE { get; private set; }
 	private Dictionary<OccupiedSlot, Highlight> objects;
 
 
@@ -33,7 +33,10 @@ public class InventoryRenderer :
 		grid      = GetComponent<RectTransform>();
 		hover     = new HoverHighlight(this);
 		objects   = new Dictionary<OccupiedSlot, Highlight>();
-		GRID_SIZE = (int) (grid.rect.width - inventory.WIDTH - 1) / inventory.WIDTH;
+		GRID_SIZE = new Vector2Int(
+			(int) (grid.rect.width  - inventory.WIDTH  - 1) / inventory.WIDTH,
+			(int) (grid.rect.height - inventory.HEIGHT - 1) / inventory.HEIGHT
+		);
 
 		foreach(OccupiedSlot slot in inventory.items){
 			AddItem(slot);
@@ -75,15 +78,17 @@ public class InventoryRenderer :
 	/* POSITION/SIZE ALTERING */
 	public void PositionOnGrid(RectTransform rt, Vector2Int pos){
 		rt.anchoredPosition = new Vector3(
-			 (pos.x + (GRID_SIZE * pos.x) + 1),
-			-(pos.y + (GRID_SIZE * pos.y) + 1),
+			 (pos.x + (GRID_SIZE.x * pos.x) + 1),
+			-(pos.y + (GRID_SIZE.y * pos.y) + 1),
 			0
 		);
 	}
 	public void SizeForGrid(RectTransform rt, Vector2Int size){
+		var x = Mathf.Min(size.x, inventory.WIDTH);
+		var y = Mathf.Min(size.y, inventory.HEIGHT);
 		rt.sizeDelta = new Vector2(
-			size.x + (GRID_SIZE * size.x) - 1,
-			size.y + (GRID_SIZE * size.y) - 1
+			x + (GRID_SIZE.x * x) - 1,
+			y + (GRID_SIZE.y * y) - 1
 		);
 	}
 	public Vector2Int ClampInside(Vector2Int pos, Vector2Int size){
