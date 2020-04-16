@@ -6,9 +6,9 @@ using UnityEngine.UI;
 
 public class Highlight {
 
-	public GameObject    obj { get; private set; }
-	public Image         image { get; private set; }
-	public RectTransform rt { get; private set; }
+	private GameObject    obj;
+	private Image         image;
+	private RectTransform rt;
 
 	public Highlight(GameObject prefab, Transform parent){
 		obj = Object.Instantiate(prefab, Vector3.zero, Quaternion.identity);
@@ -17,18 +17,40 @@ public class Highlight {
 		rt    = obj.GetComponent<RectTransform>();
 	}
 
+	public Transform transform => obj.transform;
+	public Vector2 position {
+		get { return rt.anchoredPosition; }
+		set { rt.anchoredPosition = value; }
+	}
+	public Vector2 size {
+		get { return rt.sizeDelta; }
+		set { rt.sizeDelta = value; }
+	}
+	public Color color {
+		get { return image.color; }
+		set { image.color = value; }
+	}
+	private bool _hidden;
+	public bool hidden {
+		get { return _hidden; }
+		set {
+			obj.SetActive(!value);
+			_hidden = value;
+		}
+	}
+
 	public void Destroy(){
 		Object.Destroy(obj);
 	}
 }
 
 
-public class HoverHighlight {
+public class GridHighlight {
 
 	private InventoryRenderer renderer;
 	private Highlight         highlight;
 
-	public HoverHighlight(InventoryRenderer renderer){
+	public GridHighlight(InventoryRenderer renderer){
 		this.renderer  = renderer;
 		this.highlight = new Highlight(renderer.HIGHLIGHT_PREFAB, renderer.grid);
 	}
@@ -38,7 +60,7 @@ public class HoverHighlight {
 		get { return _position; }
 		set {
 			_position = renderer.ClampInsideCentered(value, size);
-			renderer.PositionOnGrid(highlight.rt, _position);
+			highlight.position = renderer.GridToRealPosition(_position);
 		}
 	}
 
@@ -47,25 +69,21 @@ public class HoverHighlight {
 		get { return _size; }
 		set {
 			_size = value;
-			renderer.SizeForGrid(highlight.rt, value);
+			highlight.size = renderer.GridToRealSize(value);
 		}
 	}
 
-	private bool _hidden = false;
-	public  bool hidden {
-		get { return _hidden; }
-		set {
-			_hidden = value;
-			highlight.obj.SetActive(!value);
-		}
+	public bool hidden {
+		get { return highlight.hidden; }
+		set { highlight.hidden = value; }
 	}
 
 	public void UseNormalColor(){
-		highlight.image.color = renderer.HIGHLIGHT_NORMAL;
+		highlight.color = renderer.HIGHLIGHT_NORMAL;
 	}
 
 	public void UseErrorColor(){
-		highlight.image.color = renderer.HIGHLIGHT_ERROR;
+		highlight.color = renderer.HIGHLIGHT_ERROR;
 	}
 
 	public void Destroy(){

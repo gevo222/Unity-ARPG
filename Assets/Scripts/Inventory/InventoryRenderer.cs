@@ -24,14 +24,14 @@ public class InventoryRenderer :
 	public Inventory inventory;
 
 	public RectTransform  grid { get; private set; }
-	public HoverHighlight hover { get; private set; }
+	public GridHighlight  hover { get; private set; }
 	public Vector2Int     GRID_SIZE { get; private set; }
 	private Dictionary<OccupiedSlot, Highlight> objects;
 
 
 	void Start(){
 		grid      = GetComponent<RectTransform>();
-		hover     = new HoverHighlight(this);
+		hover     = new GridHighlight(this);
 		objects   = new Dictionary<OccupiedSlot, Highlight>();
 		GRID_SIZE = new Vector2Int(
 			(int) (grid.rect.width  - inventory.WIDTH  - 1) / inventory.WIDTH,
@@ -76,17 +76,16 @@ public class InventoryRenderer :
 	}
 
 	/* POSITION/SIZE ALTERING */
-	public void PositionOnGrid(RectTransform rt, Vector2Int pos){
-		rt.anchoredPosition = new Vector3(
+	public Vector2 GridToRealPosition(Vector2Int pos){
+		return new Vector2(
 			 (pos.x + (GRID_SIZE.x * pos.x) + 1),
-			-(pos.y + (GRID_SIZE.y * pos.y) + 1),
-			0
+			-(pos.y + (GRID_SIZE.y * pos.y) + 1)
 		);
 	}
-	public void SizeForGrid(RectTransform rt, Vector2Int size){
+	public Vector2 GridToRealSize(Vector2Int size){
 		var x = Mathf.Min(size.x, inventory.WIDTH);
 		var y = Mathf.Min(size.y, inventory.HEIGHT);
-		rt.sizeDelta = new Vector2(
+		return new Vector2(
 			x + (GRID_SIZE.x * x) - 1,
 			y + (GRID_SIZE.y * y) - 1
 		);
@@ -107,15 +106,16 @@ public class InventoryRenderer :
 
 	/* INTERNAL METHODS */
 	private void AddItem(OccupiedSlot slot){
-		var highlight = new Highlight(HIGHLIGHT_PREFAB, grid);
-		highlight.image.color = ITEM_BACKGROUND;
-		SizeForGrid(highlight.rt, slot.item.size);
-		PositionOnGrid(highlight.rt, slot.position);
+		var highlight = new Highlight(HIGHLIGHT_PREFAB, grid) {
+			color = ITEM_BACKGROUND,
+			position = GridToRealPosition(slot.position),
+			size = GridToRealSize(slot.item.size)
+		};
 
 		var obj = slot.item.CreateIcon();
-		obj.transform.SetParent(highlight.obj.transform, false);
+		obj.transform.SetParent(highlight.transform, false);
 		obj.transform.localPosition = new Vector3(
-			highlight.rt.sizeDelta.x / 2, -highlight.rt.sizeDelta.y / 2, 0
+			highlight.size.x / 2, -highlight.size.y / 2, 0
 		);
 
 		objects.Add(slot, highlight);
