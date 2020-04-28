@@ -13,9 +13,6 @@ public class Interaction : MonoBehaviour
 
     void Start()
     {
-        if (Event == null)
-            Event = new InteractEvent();
-
-        Event.AddListener(() => Debug.Log(string.Format("Interacted with object at {0}", transform.position)));
+        Event?.AddListener(() => Debug.Log(string.Format("Interacted with object at {0}", transform.position)));
     }
 }
