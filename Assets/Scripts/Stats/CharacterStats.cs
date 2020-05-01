@@ -2,23 +2,14 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-/* Contains all the stats for a character. */
-
 public class CharacterStats : MonoBehaviour
 {
-
-    public Stat maxHealth;          // Maximum amount of health
-    public int currentHealth { get; protected set; }    // Current amount of health
+    public int currentHP;
+    public Stat maxHP;
     public Stat damage;
     public Stat armor;
-
     Animator anim;
 
-
-    public virtual void Awake()
-    {
-        currentHealth = maxHealth.GetValue();
-    }
 
     // Temporary test
     private void Update()
@@ -29,32 +20,35 @@ public class CharacterStats : MonoBehaviour
         }
     }
 
-    // Start with max HP.
     public virtual void Start()
     {
         anim = GetComponent<Animator>();
+
+        // Spawn with Max HP
+        currentHP = maxHP.GetStat();
     }
 
-    // Damage the character
-    public void TakeDamage(int damage)
+    // Calculate and deal damage
+    public void TakeDamage(int rawDamage)
     {
-        // Subtract the armor value - Make sure damage doesn't go below 0.
-        damage -= armor.GetValue();
-        damage = Mathf.Clamp(damage, 0, int.MaxValue);
+        // Reduce damage with armor
+        int finalDamage = rawDamage;
+        finalDamage -= armor.GetStat();
+        finalDamage = Mathf.Clamp(finalDamage, 0, int.MaxValue);
 
-        // Subtract damage from health
-        currentHealth -= damage;
-        Debug.Log(transform.name + " takes " + damage + " damage.");
+        // Take damage
+        currentHP -= finalDamage;
 
-        // If we hit 0. Die.
-        if (currentHealth <= 0)
+        // Die when health reaches 0
+        if (currentHP <= 0)
         {
-
+           // Might need to make this overwriteable to give enemies deaths too
            StartCoroutine(Dead());
          
         }
     }
 
+    // Player death
     public IEnumerator Dead()
     {
         // Play death animation
@@ -71,11 +65,15 @@ public class CharacterStats : MonoBehaviour
 
 
     }
+
     // Heal the character.
-    public void Heal(int amount)
+    public void Heal(int rawHeal)
     {
-        currentHealth += amount;
-        currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth.GetValue());
+        currentHP += rawHeal;
+        
+
+        // Prevent overheal
+        currentHP = Mathf.Clamp(currentHP, 0, maxHP.GetStat());
     }
 
 

@@ -1,38 +1,34 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-/* Base class for all stats: health, armor, damage etc. */
+﻿using System.Collections.Generic;
 
 [System.Serializable]
 public class Stat
 {
+    // Initial value
+    public int Initvalue;   
 
-    public int baseValue;   // Starting value
-
-    // Keep a list of all the modifiers on this stat
-    private List<int> modifiers = new List<int>();
+    // List of stat modifiers
+    private List<int> statModifiers = new List<int>();
 
     // Add all modifiers together and return the result
-    public int GetValue()
+    public int GetStat()
     {
-        int finalValue = baseValue;
-        modifiers.ForEach(x => finalValue += x);
-        return finalValue;
+        int retValue = Initvalue;
+        statModifiers.ForEach(x => retValue += x);
+        return retValue;
     }
 
     // Add a new modifier to the list
-    public void AddModifier(int modifier)
+    public void AddStatModifier(int modifier)
     {
         if (modifier != 0)
-            modifiers.Add(modifier);
+            statModifiers.Add(modifier);
     }
 
     // Remove a modifier from the list
-    public void RemoveModifier(int modifier)
+    public void RemoveStatModifier(int modifier)
     {
         if (modifier != 0)
-            modifiers.Remove(modifier);
+            statModifiers.Remove(modifier);
     }
 
 }
