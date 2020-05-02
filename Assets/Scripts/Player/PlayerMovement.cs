@@ -1,16 +1,21 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Events;
+
+
+[Serializable] public class InteractEvent : UnityEvent<GameObject, GameObject> {}
+public interface Interactable {}
 
 public class PlayerMovement : MonoBehaviour
 {
-    [SerializeField]
-    private Camera cam;
-    private NavMeshAgent agent;
+    [SerializeField] private Camera cam;
+    [SerializeField] private float interactDistance;
 
-    [SerializeField]
-    private float interactDistance;
+    [SerializeField] public InteractEvent Event;
+    private NavMeshAgent agent;
 
     void Start()
     {
@@ -25,15 +30,14 @@ public class PlayerMovement : MonoBehaviour
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit, 100))
             {
-                var interactions = hit.transform.gameObject.GetComponentsInChildren<Interaction>();
-                foreach (var i in interactions)
+                var interaction = hit.transform.gameObject.GetComponent<Interactable>();
+                if (interaction != null &&
+                        Vector3.Distance(transform.position, hit.point) <= interactDistance)
                 {
-                    if (Vector3.Distance(transform.position, hit.transform.position) <= interactDistance)
-                    {
-                        i.Event.Invoke();
-                    }
+                    Event?.Invoke(this.transform.gameObject, hit.transform.gameObject);
+                } else {
+                    agent.SetDestination(hit.point);
                 }
-                agent.SetDestination(hit.point);
             }
         }
     }
