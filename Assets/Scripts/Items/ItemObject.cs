@@ -30,6 +30,7 @@ public class ItemObject : ScriptableObject
     [SerializeField] private ItemType itemType;
     [SerializeField] private GameObject worldPrefab;
     [SerializeField] private GameObject uiPrefab;
+    [SerializeField] private Sprite uiSprite;
     [SerializeField] private ItemValuesDictType values;
 
     [Header("Inventory")]
@@ -44,6 +45,7 @@ public class ItemObject : ScriptableObject
     public ItemType ItemType => itemType;
     public GameObject WorldPrefab => worldPrefab;
     public GameObject UiPrefab => uiPrefab;
+    public Sprite UiSprite => uiSprite;
     public ItemValuesDictType Values => values;
 
     public Vector2Int InvSize => invSize;

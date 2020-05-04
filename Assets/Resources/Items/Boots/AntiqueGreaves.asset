@@ -1,0 +1,56 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 306aeee846501ab8d921f7f4345d2608, type: 3}
+  m_Name: AntiqueGreaves
+  m_EditorClassIdentifier: 
+  name: Antique Greaves
+  flavorText: 
+  itemType: 2
+  worldPrefab: {fileID: 2068844038007576259, guid: d4391fd579d4058fd996ea8412febbb0,
+    type: 3}
+  uiPrefab: {fileID: 0}
+  uiSprite: {fileID: 21300000, guid: fedb9caeb8554077b9a1434c6afcc58a, type: 3}
+  values:
+    reorderableList:
+      canAdd: 1
+      canRemove: 1
+      draggable: 1
+      expandable: 1
+      multipleSelection: 1
+      isExpanded: 1
+      label:
+        m_Text: Keys
+        m_Image: {fileID: 0}
+        m_Tooltip: 
+      headerHeight: 18
+      footerHeight: 13
+      slideEasing: 0.15
+      verticalSpacing: 2
+      showDefaultBackground: 1
+      elementDisplayType: 0
+      elementNameProperty: 
+      elementNameOverride: 
+      elementIcon: {fileID: 0}
+    reqReferences: {fileID: 0}
+    isExpanded: 1
+    _keyValues:
+    - Armor
+    - Strength
+    _keys:
+    - Armor
+    - Strength
+    _values:
+    - 20
+    - 4
+  invSize: {x: 2, y: 2}
+  rarity: 1
+  dropsFrom: []
