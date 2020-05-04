@@ -24,7 +24,9 @@ public class InventoryRenderer :
 	public RectTransform  grid { get; private set; }
 	public GridHighlight  hover { get; private set; }
 	public Vector2Int     GRID_SIZE { get; private set; }
+
 	private Dictionary<OccupiedSlot, Highlight> objects;
+	private bool inside = false;
 
 
 	void Start(){
@@ -43,15 +45,62 @@ public class InventoryRenderer :
 		inventory.OnItemRemoved.AddListener(RemoveItem);
 	}
 
-	/* INTERACTION EVENT FORWARDER */
+	void Update(){
+		var held = ItemManager.main.holdingItem;
+		if(!inside || held == null)
+			return;
+
+		var gridPos = ScreenToGrid(Input.mousePosition);
+		hover.position = gridPos;
+
+		var hoverPos = hover.position; //this value is now clamped. fuck it
+		hover.hidden = false;
+		hover.size   = held.size;
+
+		var overlap = inventory.GetOverlapType(hoverPos, held.size);
+		if(overlap == OverlapType.MULTI)
+			hover.UseErrorColor();
+		else
+			hover.UseNormalColor();
+	}
+
 	public void OnPointerDown(PointerEventData evt){
-		ItemManager.main.OnInventoryDown(this, evt);
+		var held = ItemManager.main.holdingItem;
+
+		if(held == null){
+			var gridPos = ScreenToGrid(evt.position);
+			OccupiedSlot slot = inventory.GetItemAt(gridPos);
+			if(slot != null){
+				inventory.Remove(slot);
+				ItemManager.main.PickUp(slot.item);
+			}
+		} else {
+			var hoverPos = hover.position;
+			OccupiedSlot overlap;
+			var result = inventory.GetOverlap(hoverPos, held.size, out overlap);
+			switch(result){
+			case OverlapType.NONE:
+				inventory.Add(held, hoverPos);
+				ItemManager.main.PutDown();
+				hover.hidden = true;
+				break;
+			case OverlapType.SINGLE:
+				inventory.Remove(overlap);
+				inventory.Add(held, hoverPos);
+				ItemManager.main.PutDown();
+				ItemManager.main.PickUp(overlap.item);
+				break;
+			}
+		}
 	}
+
 	public void OnPointerEnter(PointerEventData evt){
-		ItemManager.main.OnInventoryEnter(this);
+		inside = true;
 	}
+
 	public void OnPointerExit(PointerEventData evt){
-		ItemManager.main.OnInventoryExit(this);
+		inside = false;
+		hover.hidden = true;
 	}
 
 	/* POSITION TRANSFORMATIONS */

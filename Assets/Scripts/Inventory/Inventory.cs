@@ -30,15 +30,14 @@ public class Inventory : MonoBehaviour {
 		OnItemAdded   = new ItemEvent();
 		OnItemRemoved = new ItemEvent();
 
-
 		// TODO: temporary hack to test items
-		try {
-			Add( new Item(ItemObject.All["Items/Weapons/Epic_Dagger"]) );
-			Add( new Item(ItemObject.All["Items/Weapons/Katana"]) );
-			Add( new Item(ItemObject.All["Items/Weapons/Rapier"]) );
-			Add( new Item(ItemObject.All["Items/Weapons/Small_Dagger"]) );
-			Add( new Item(ItemObject.All["Items/Weapons/Cutter"]) );
-		} catch(System.Exception){}
+		//try {
+		//	Add( new Item(ItemObject.All["Items/Weapons/Epic_Dagger"]) );
+		//	Add( new Item(ItemObject.All["Items/Weapons/Katana"]) );
+		//	Add( new Item(ItemObject.All["Items/Weapons/Rapier"]) );
+		//	Add( new Item(ItemObject.All["Items/Weapons/Small_Dagger"]) );
+		//	Add( new Item(ItemObject.All["Items/Weapons/Cutter"]) );
+		//} catch(System.Exception){}
 	}
 
 	public OccupiedSlot Add(Item item){

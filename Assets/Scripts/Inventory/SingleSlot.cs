@@ -22,7 +22,6 @@ public class SingleSlot :
 	public ItemType ALLOW_TYPE;
 
 	public Highlight background { get; private set; }
-	private bool inside = false;
 
 	void Awake(){
 		var size = GetComponent<RectTransform>().sizeDelta;
