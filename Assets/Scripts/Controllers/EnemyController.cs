@@ -10,11 +10,24 @@ public class EnemyController : MonoBehaviour
 
     Transform player;
     NavMeshAgent agent;
+    CharacterStats playerStats;
+    CharacterStats enemyStats;
+    int enemyDamage;
+    int playerDamage;
+    int elapsedTime;
+    Animator playerAnim;
+    Animator enemyAnim;
 
     void Start()
     {
         player = Player.instance.transform;
         agent = GetComponent<NavMeshAgent>();
+        playerStats = player.GetComponent<CharacterStats>();
+        enemyStats = GetComponent<CharacterStats>();
+        playerDamage = playerStats.damage.GetStat();
+        enemyDamage = enemyStats.damage.GetStat();
+        playerAnim = player.GetComponent<Animator>();
+        enemyAnim = GetComponent<Animator>();
     }
 
     void Update()
@@ -30,6 +43,20 @@ public class EnemyController : MonoBehaviour
             if (distance <= agent.stoppingDistance)
             {
                 FacePlayer();
+
+                //if (elapsedTime > 1)
+                
+                   // playerStats.TakeDamage(enemyDamage);
+                    enemyStats.TakeDamage(playerDamage);
+                    playerAnim.SetBool("RClick", true);
+                    enemyAnim.SetBool("RClick", true);
+
+                // playerstats.currentHP = playerstats.currentHP - enemystats;
+                // enemystats.currentHP = enemystats.currentHP - 1;
+            }
+            else
+            {
+                playerAnim.SetBool("RClick", false);
             }
         }
     }
