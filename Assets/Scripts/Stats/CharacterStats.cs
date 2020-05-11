@@ -4,12 +4,14 @@ using UnityEngine.SceneManagement;
 
 public class CharacterStats : MonoBehaviour
 {
+    Transform player;
     public int currentHP;
     public Stat maxHP;
     public Stat damage;
     public Stat armor;
     Animator anim;
-
+    Animator playerAnim;
+    
 
     // Temporary test
     private void Update()
@@ -22,8 +24,9 @@ public class CharacterStats : MonoBehaviour
 
     public virtual void Start()
     {
+        player = Player.instance.transform;
+        playerAnim = player.GetComponent<Animator>();
         anim = GetComponent<Animator>();
-
         // Spawn with Max HP
         currentHP = maxHP.GetStat();
     }
@@ -51,18 +54,40 @@ public class CharacterStats : MonoBehaviour
     // Player death
     public IEnumerator Dead()
     {
-        // Play death animation
-        anim.SetBool("dead", true);
 
-        // TODO: Game Over message
+        // If player dies
+        if (transform.tag == "Player")
+        {
+
+            // Play death animation
+            anim.SetBool("dead", true);
+
+            // TODO: Game Over message
 
 
-        // Wait
-        yield return new WaitForSeconds(2f);
+            // Wait
+            yield return new WaitForSeconds(2f);
 
-        // Restart level Prompt
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            // Restart level Prompt
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        }
 
+        // if anything else dies
+        else
+        {
+
+            // play death animation
+           anim.Play("Die");
+  
+            // destroy it
+           yield return new WaitForSeconds(2f);
+           Destroy(gameObject);
+
+            // player stops attacking
+            playerAnim.SetBool("RClick", false);
+
+
+        }
 
     }
 

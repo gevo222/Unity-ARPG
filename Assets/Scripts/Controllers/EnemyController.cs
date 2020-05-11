@@ -17,6 +17,8 @@ public class EnemyController : MonoBehaviour
     int elapsedTime;
     Animator playerAnim;
     Animator enemyAnim;
+    AudioSource fightMusic;
+
 
     void Start()
     {
@@ -28,6 +30,7 @@ public class EnemyController : MonoBehaviour
         enemyDamage = enemyStats.damage.GetStat();
         playerAnim = player.GetComponent<Animator>();
         enemyAnim = GetComponent<Animator>();
+        fightMusic = GetComponent<AudioSource>();
     }
 
     void Update()
@@ -38,6 +41,7 @@ public class EnemyController : MonoBehaviour
         {
             // Follow the player
             agent.SetDestination(player.position);
+            enemyAnim.SetBool("Run Forward", true);
 
             // If already in range, always face the player
             if (distance <= agent.stoppingDistance)
@@ -45,18 +49,27 @@ public class EnemyController : MonoBehaviour
                 FacePlayer();
 
                 //if (elapsedTime > 1)
-                
-                   // playerStats.TakeDamage(enemyDamage);
-                    enemyStats.TakeDamage(playerDamage);
-                    playerAnim.SetBool("RClick", true);
-                    enemyAnim.SetBool("RClick", true);
+                enemyAnim.SetBool("Run Forward", false);
+                //Damage player's stats
+                // playerStats.TakeDamage(enemyDamage);
+                //Damage enemy's stats
+                enemyStats.TakeDamage(playerDamage);
+                //Play attack animation for player
+                playerAnim.SetBool("RClick", true);
+                //Play attack animation for enemy
+                    enemyAnim.SetTrigger("Stab Attack");
 
-                // playerstats.currentHP = playerstats.currentHP - enemystats;
-                // enemystats.currentHP = enemystats.currentHP - 1;
+                // Deal double damage with cyclone
+                if (playerAnim.GetBool("Q"))
+                {
+                    enemyStats.TakeDamage(playerDamage);
+                }
+                
             }
             else
             {
-                playerAnim.SetBool("RClick", false);
+                    playerAnim.SetBool("RClick", false);
+
             }
         }
     }
@@ -75,5 +88,7 @@ public class EnemyController : MonoBehaviour
         Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(transform.position, lookRadius);
     }
+
+
 
 }
