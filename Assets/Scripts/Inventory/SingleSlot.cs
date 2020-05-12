@@ -49,9 +49,13 @@ public class SingleSlot :
 			item = held;
 			background.color = ITEM_BACKGROUND;
 		}
+
+		ItemManager.main.SetTooltip(item);
 	}
 
 	public void OnPointerEnter(PointerEventData evt){
+		ItemManager.main.SetTooltip(item);
+
 		var held = ItemManager.main.holdingItem;
 		if(held != null){
 			background.hidden = false;
@@ -62,6 +66,7 @@ public class SingleSlot :
 	public void OnPointerExit(PointerEventData evt){
 		background.hidden = IsEmpty();
 		background.color = ITEM_BACKGROUND;
+		ItemManager.main.SetTooltip(null);
 	}
 
 

@@ -19,6 +19,7 @@ MonoBehaviour:
     type: 3}
   uiPrefab: {fileID: 5252584093486802847, guid: ff0fa23db5b3e0a08b753115997f7097,
     type: 3}
+  uiSprite: {fileID: 0}
   values:
     reorderableList:
       canAdd: 1
@@ -43,14 +44,20 @@ MonoBehaviour:
     reqReferences: {fileID: 0}
     isExpanded: 1
     _keyValues:
+    - Damage
+    - Speed
     - Strength
-    - Intellegence
+    - Dexterity
     _keys:
+    - Damage
+    - Speed
     - Strength
-    - Intellegence
+    - Dexterity
     _values:
+    - 95
+    - 1
     - 10
-    - 14
+    - 8
   invSize: {x: 2, y: 3}
   rarity: 1
   dropsFrom: []

@@ -15,7 +15,7 @@ MonoBehaviour:
   name: Lunaris Circlet
   flavorText: 
   itemType: 4
-  worldPrefab: {fileID: 2068844038007576259, guid: d4391fd579d4058fd996ea8412febbb0,
+  worldPrefab: {fileID: 6274743073383092723, guid: fe24651d93b9ec4a28c0b5e0130f8abc,
     type: 3}
   uiPrefab: {fileID: 0}
   uiSprite: {fileID: 21300000, guid: 403cbd2460a11d7c09182cf907b0e8bd, type: 3}
@@ -44,10 +44,10 @@ MonoBehaviour:
     isExpanded: 1
     _keyValues:
     - Armor
-    - Intellegence
+    - Intelligence
     _keys:
     - Armor
-    - Intellegence
+    - Intelligence
     _values:
     - 28
     - 12

@@ -7,15 +7,17 @@ using UnityEngine.Assertions;
 public class ItemInteraction : MonoBehaviour {
 
     public void OnInteraction(GameObject actor, GameObject target){
-		var inv = actor.GetComponent<Inventory>();
-		if(inv == null)
+		var itemDef = target.GetComponent<PickUpItem>()?.item;
+		if(itemDef == null)
 			return;
 
-		var itemDef = target.GetComponent<PickUpItem>()?.item;
-		Object.Destroy(target);
+		Debug.Log($"Player picked up: {target.name}");
+		var inv = actor.GetComponent<Inventory>();
+		if(inv != null){
+			Object.Destroy(target);
+			inv.Add( new Item(itemDef) );
+		}
 
-		inv.Add( new Item(itemDef) );
 	}
-
 }
 
