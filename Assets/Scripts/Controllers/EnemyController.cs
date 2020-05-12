@@ -18,6 +18,9 @@ public class EnemyController : MonoBehaviour
     Animator playerAnim;
     Animator enemyAnim;
     AudioSource fightMusic;
+    public float attackSpeed = 1f;
+    private float attackCooldown = 0f;
+
 
 
     void Start()
@@ -30,7 +33,12 @@ public class EnemyController : MonoBehaviour
         enemyDamage = enemyStats.damage.GetStat();
         playerAnim = player.GetComponent<Animator>();
         enemyAnim = GetComponent<Animator>();
-        fightMusic = GetComponent<AudioSource>();
+        
+
+        if (transform.tag == "Boss")
+        {
+            fightMusic = GetComponent<AudioSource>();
+        }
     }
 
     void Update()
@@ -43,35 +51,54 @@ public class EnemyController : MonoBehaviour
             agent.SetDestination(player.position);
             enemyAnim.SetBool("Run Forward", true);
 
+            // Enable Boss Music
+            if (transform.tag == "Boss")
+            {
+                fightMusic.enabled = true;
+            }
+
+            attackCooldown -= Time.deltaTime;
+
             // If already in range, always face the player
             if (distance <= agent.stoppingDistance)
             {
                 FacePlayer();
 
-                //if (elapsedTime > 1)
+                HealOutOfCombat.playerInCombat = true;
                 enemyAnim.SetBool("Run Forward", false);
-                //Damage player's stats
-                // playerStats.TakeDamage(enemyDamage);
-                //Damage enemy's stats
-                enemyStats.TakeDamage(playerDamage);
+
+                if (attackCooldown <= 0f)
+                {
+                    //Damage player's stats
+                    playerStats.TakeDamage(enemyDamage);
+
+                    //Damage enemy's stats
+                    enemyStats.TakeDamage(playerDamage);
+                    // Deal double damage with cyclone
+                    if (playerAnim.GetBool("Q"))
+                    {
+                        enemyStats.TakeDamage(playerDamage);
+                    }
+
+                    attackCooldown = 1f / attackSpeed;
+                }
                 //Play attack animation for player
                 playerAnim.SetBool("RClick", true);
                 //Play attack animation for enemy
                     enemyAnim.SetTrigger("Stab Attack");
 
-                // Deal double damage with cyclone
-                if (playerAnim.GetBool("Q"))
-                {
-                    enemyStats.TakeDamage(playerDamage);
-                }
+                
                 
             }
             else
             {
                     playerAnim.SetBool("RClick", false);
+                    HealOutOfCombat.playerInCombat = false;
+                   
 
             }
         }
+        
     }
 
     // Face the player
