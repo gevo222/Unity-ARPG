@@ -74,7 +74,11 @@ public class EnemyController : MonoBehaviour
 
                     //Damage enemy's stats
                     enemyStats.TakeDamage(playerDamage);
-
+                    // Deal double damage with cyclone
+                    if (playerAnim.GetBool("Q"))
+                    {
+                        enemyStats.TakeDamage(playerDamage);
+                    }
 
                     attackCooldown = 1f / attackSpeed;
                 }
@@ -83,11 +87,7 @@ public class EnemyController : MonoBehaviour
                 //Play attack animation for enemy
                     enemyAnim.SetTrigger("Stab Attack");
 
-                // Deal double damage with cyclone
-                if (playerAnim.GetBool("Q"))
-                {
-                    enemyStats.TakeDamage(playerDamage);
-                }
+                
                 
             }
             else
