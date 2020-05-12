@@ -12,6 +12,8 @@ public class InventoryRenderer :
 	IPointerEnterHandler,
 	IPointerExitHandler
 {
+	private static float BASE_GRID_SIZE = 40;
+
 	[SerializeField, ReadOnly]
 	public Color HIGHLIGHT_NORMAL = new Color(1, 1, 1, 0.08f);
 	[SerializeField, ReadOnly]
@@ -23,7 +25,7 @@ public class InventoryRenderer :
 
 	public RectTransform  grid { get; private set; }
 	public GridHighlight  hover { get; private set; }
-	public Vector2Int     GRID_SIZE { get; private set; }
+	public float          GRID_SIZE { get; private set; }
 
 	private Dictionary<OccupiedSlot, Highlight> objects;
 	private bool inside = false;
@@ -33,10 +35,7 @@ public class InventoryRenderer :
 		grid      = GetComponent<RectTransform>();
 		hover     = new GridHighlight(this);
 		objects   = new Dictionary<OccupiedSlot, Highlight>();
-		GRID_SIZE = new Vector2Int(
-			(int) (grid.rect.width  - inventory.WIDTH  - 1) / inventory.WIDTH,
-			(int) (grid.rect.height - inventory.HEIGHT - 1) / inventory.HEIGHT
-		);
+		GRID_SIZE = (grid.rect.width  - inventory.WIDTH  - 1) / inventory.WIDTH;
 
 		foreach(OccupiedSlot slot in inventory.items){
 			AddItem(slot);
@@ -131,16 +130,16 @@ public class InventoryRenderer :
 	/* POSITION/SIZE ALTERING */
 	public Vector2 GridToRealPosition(Vector2Int pos){
 		return new Vector2(
-			 (pos.x + (GRID_SIZE.x * pos.x) + 1),
-			-(pos.y + (GRID_SIZE.y * pos.y) + 1)
+			 (pos.x + (GRID_SIZE * pos.x) + 1),
+			-(pos.y + (GRID_SIZE * pos.y) + 1)
 		);
 	}
 	public Vector2 GridToRealSize(Vector2Int size){
 		var x = Mathf.Min(size.x, inventory.WIDTH);
 		var y = Mathf.Min(size.y, inventory.HEIGHT);
 		return new Vector2(
-			x + (GRID_SIZE.x * x) - 1,
-			y + (GRID_SIZE.y * y) - 1
+			x + (GRID_SIZE * x) - 1,
+			y + (GRID_SIZE * y) - 1
 		);
 	}
 	public Vector2Int ClampInside(Vector2Int pos, Vector2Int size){
@@ -164,7 +163,7 @@ public class InventoryRenderer :
 			size = GridToRealSize(slot.item.size)
 		};
 
-		var obj = slot.item.CreateIcon(highlight.transform);
+		var obj = slot.item.CreateIcon(highlight.transform, GRID_SIZE / BASE_GRID_SIZE);
 		obj.transform.localPosition = new Vector3(
 			highlight.size.x / 2, -highlight.size.y / 2, 0
 		);

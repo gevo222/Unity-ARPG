@@ -66,8 +66,8 @@ public class Inventory : MonoBehaviour {
 	}
 
 	public Vector2Int? FirstOpenSlotFor(Vector2Int size){
-		for(int py = 0; py < HEIGHT; py++){
-			for(int px = 0; px < WIDTH; px++){
+		for(int px = 0; px < WIDTH; px++){
+			for(int py = 0; py < HEIGHT; py++){
 				var pos = new Vector2Int(px, py);
 				if(SlotFits(pos, size))
 					return pos;

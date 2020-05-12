@@ -22,18 +22,19 @@ public class Item {
 	public Vector2Int size => definition.InvSize;
 
 
-	public GameObject CreateIcon(Transform parent){
+	public GameObject CreateIcon(Transform parent, float scale = 1.0f){
 
 		GameObject obj = null;
 		if(definition.UiPrefab != null){
 			obj = Object.Instantiate(definition.UiPrefab, parent, false);
+			obj.transform.localScale *= scale;
 		} else {
 			obj = Object.Instantiate(Item.ICON_PREFAB, parent, false);
 			obj.GetComponent<Image>().sprite = definition.UiSprite;
 			obj.GetComponent<RectTransform>().sizeDelta = new Vector2(
 				size.x + (40 * size.x) - 1,
 				size.y + (40 * size.y) - 1
-			);
+			) * scale;
 		}
 
 		return obj;
