@@ -18,6 +18,8 @@ public class EnemyController : MonoBehaviour
     Animator playerAnim;
     Animator enemyAnim;
     AudioSource fightMusic;
+    public float attackSpeed = 1f;
+    private float attackCooldown = 0f;
 
 
     void Start()
@@ -47,22 +49,34 @@ public class EnemyController : MonoBehaviour
             // Follow the player
             agent.SetDestination(player.position);
             enemyAnim.SetBool("Run Forward", true);
+
+            // Enable Boss Music
             if (transform.tag == "Boss")
             {
                 fightMusic.enabled = true;
             }
-            
+
+            attackCooldown -= Time.deltaTime;
+
             // If already in range, always face the player
             if (distance <= agent.stoppingDistance)
             {
                 FacePlayer();
 
-                //if (elapsedTime > 1)
+                
                 enemyAnim.SetBool("Run Forward", false);
-                //Damage player's stats
-                // playerStats.TakeDamage(enemyDamage);
-                //Damage enemy's stats
-                enemyStats.TakeDamage(playerDamage);
+
+                if (attackCooldown <= 0f)
+                {
+                    //Damage player's stats
+                    playerStats.TakeDamage(enemyDamage);
+
+                    //Damage enemy's stats
+                    enemyStats.TakeDamage(playerDamage);
+
+
+                    attackCooldown = 1f / attackSpeed;
+                }
                 //Play attack animation for player
                 playerAnim.SetBool("RClick", true);
                 //Play attack animation for enemy
