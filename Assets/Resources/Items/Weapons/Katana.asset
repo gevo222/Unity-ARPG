@@ -15,7 +15,11 @@ MonoBehaviour:
   name: Katana
   flavorText: 
   itemType: 0
-  prefab: {fileID: 2686061487495461216, guid: d1fd53d963621f830b277b40fd2f6d66, type: 3}
+  worldPrefab: {fileID: 2686061487495461216, guid: d1fd53d963621f830b277b40fd2f6d66,
+    type: 3}
+  uiPrefab: {fileID: 6317013222902112009, guid: cc78102fa6b7dc834acbccc6cf99f31d,
+    type: 3}
+  uiSprite: {fileID: 0}
   values:
     reorderableList:
       canAdd: 1
@@ -23,7 +27,7 @@ MonoBehaviour:
       draggable: 1
       expandable: 1
       multipleSelection: 1
-      isExpanded: 0
+      isExpanded: 1
       label:
         m_Text: Keys
         m_Image: {fileID: 0}
@@ -38,10 +42,19 @@ MonoBehaviour:
       elementNameOverride: 
       elementIcon: {fileID: 0}
     reqReferences: {fileID: 0}
-    isExpanded: 0
-    _keyValues: []
-    _keys: []
-    _values: []
+    isExpanded: 1
+    _keyValues:
+    - Damage
+    - Speed
+    - Dexterity
+    _keys:
+    - Damage
+    - Speed
+    - Dexterity
+    _values:
+    - 110
+    - 1.3
+    - 18
   invSize: {x: 1, y: 4}
   rarity: 0.01
   dropsFrom: []

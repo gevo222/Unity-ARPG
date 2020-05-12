@@ -3,23 +3,113 @@ using System.Collections.Generic;
 using Unity.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 
-public class InventoryRenderer : MonoBehaviour {
-
+public class InventoryRenderer :
+	MonoBehaviour,
+	IPointerDownHandler,
+	IPointerEnterHandler,
+	IPointerExitHandler
+{
 	[SerializeField, ReadOnly]
-	public int        INV_WIDTH, INV_HEIGHT;
+	public Color HIGHLIGHT_NORMAL = new Color(1, 1, 1, 0.08f);
 	[SerializeField, ReadOnly]
-	public GameObject HIGHLIGHT_PREFAB;
+	public Color HIGHLIGHT_ERROR  = new Color(1, 0, 0, 0.16f);
+	[SerializeField, ReadOnly]
+	public Color ITEM_BACKGROUND  = new Color(0, 0, 1.0f, 0.1f);
+	[SerializeField]
+	public Inventory inventory;
 
-	internal int           GRID_SIZE;
-	internal RectTransform grid;
+	public RectTransform  grid { get; private set; }
+	public GridHighlight  hover { get; private set; }
+	public Vector2Int     GRID_SIZE { get; private set; }
 
-	void Awake(){
+	private Dictionary<OccupiedSlot, Highlight> objects;
+	private bool inside = false;
+
+
+	void Start(){
 		grid      = GetComponent<RectTransform>();
-		GRID_SIZE = (int) (grid.rect.width - INV_WIDTH - 1) / INV_WIDTH;
+		hover     = new GridHighlight(this);
+		objects   = new Dictionary<OccupiedSlot, Highlight>();
+		GRID_SIZE = new Vector2Int(
+			(int) (grid.rect.width  - inventory.WIDTH  - 1) / inventory.WIDTH,
+			(int) (grid.rect.height - inventory.HEIGHT - 1) / inventory.HEIGHT
+		);
+
+		foreach(OccupiedSlot slot in inventory.items){
+			AddItem(slot);
+		}
+		inventory.OnItemAdded.AddListener(AddItem);
+		inventory.OnItemRemoved.AddListener(RemoveItem);
 	}
 
+	void Update(){
+		if(!inside)
+			return;
+
+		var gridPos = ScreenToGrid(Input.mousePosition);
+		OccupiedSlot slot = inventory.GetItemAt(gridPos);
+		ItemManager.main.SetTooltip(slot?.item);
+
+		var held = ItemManager.main.holdingItem;
+		if(held == null)
+			return;
+
+		hover.position = gridPos;
+		var hoverPos = hover.position; //this value is now clamped. fuck it
+		hover.hidden = false;
+		hover.size   = held.size;
+
+		var overlap = inventory.GetOverlapType(hoverPos, held.size);
+		if(overlap == OverlapType.MULTI)
+			hover.UseErrorColor();
+		else
+			hover.UseNormalColor();
+	}
+
+	public void OnPointerDown(PointerEventData evt){
+		var held = ItemManager.main.holdingItem;
+
+		if(held == null){
+			var gridPos = ScreenToGrid(evt.position);
+			OccupiedSlot slot = inventory.GetItemAt(gridPos);
+			if(slot != null){
+				inventory.Remove(slot);
+				ItemManager.main.PickUp(slot.item);
+			}
+		} else {
+			var hoverPos = hover.position;
+			OccupiedSlot overlap;
+			var result = inventory.GetOverlap(hoverPos, held.size, out overlap);
+			switch(result){
+			case OverlapType.NONE:
+				inventory.Add(held, hoverPos);
+				ItemManager.main.PutDown();
+				hover.hidden = true;
+				break;
+			case OverlapType.SINGLE:
+				inventory.Remove(overlap);
+				inventory.Add(held, hoverPos);
+				ItemManager.main.PutDown();
+				ItemManager.main.PickUp(overlap.item);
+				break;
+			}
+		}
+	}
+
+	public void OnPointerEnter(PointerEventData evt){
+		inside = true;
+	}
+
+	public void OnPointerExit(PointerEventData evt){
+		inside = false;
+		hover.hidden = true;
+		ItemManager.main.SetTooltip(null);
+	}
+
+	/* POSITION TRANSFORMATIONS */
 	public Vector2 ScreenToLocal(Vector2 input){
 		Vector2 pos;
 		RectTransformUtility.ScreenPointToLocalPointInRectangle(
@@ -27,210 +117,66 @@ public class InventoryRenderer : MonoBehaviour {
 		);
 		return pos;
 	}
-
 	public Vector2Int ScreenToGrid(Vector2 input){
 		Vector2 local = ScreenToLocal(input);
 		return LocalToGrid(local);
 	}
-
 	public Vector2Int LocalToGrid(Vector2 input){
 		return new Vector2Int(
-			Mathf.FloorToInt(INV_WIDTH * (input.x / grid.rect.width + 0.5f)),
-			Mathf.FloorToInt(INV_HEIGHT * (1 - input.y / grid.rect.height))
+			Mathf.FloorToInt(inventory.WIDTH * (input.x / grid.rect.width + 0.5f)),
+			Mathf.FloorToInt(inventory.HEIGHT * (1 - input.y / grid.rect.height))
 		);
 	}
 
-	public Highlight CreateHighlight(bool centered = false){
-		if(centered){
-			return new CenteredHighlight(this);
-		} else {
-			return new Highlight(this);
-		}
-	}
-
-	public Item AddItem(ItemDef itemDef){
-		return new Item(this, itemDef);
-	}
-}
-
-public class Highlight {
-
-	protected InventoryRenderer inv;
-	protected GameObject        obj;
-	protected Image             image;
-	protected RectTransform     rTransform;
-
-	public Highlight(InventoryRenderer inv){
-		this.inv = inv;
-		this.obj = Object.Instantiate(inv.HIGHLIGHT_PREFAB, Vector3.zero, Quaternion.identity);
-		this.image = obj.GetComponent<Image>();
-		this.rTransform = obj.GetComponent<RectTransform>();
-		obj.transform.SetParent(inv.grid, false);
-	}
-
-	private Vector2Int _position;
-	public  Vector2Int position {
-		get { return _position; }
-		set {
-			if(IsOutOfBounds(value)){
-				hidden = true;
-			} else {
-				hidden = false;
-				_position = value = ClampPosition(value);
-				rTransform.anchoredPosition = new Vector3(
-					 (value.x + (inv.GRID_SIZE * value.x) + 1),
-					-(value.y + (inv.GRID_SIZE * value.y) + 1),
-					0
-				);
-			}
-		}
-	}
-	public Vector2 pixelPosition {
-		get { return rTransform.anchoredPosition; }
-	}
-	public Vector3 localPosition {
-		get { return rTransform.localPosition; }
-	}
-
-	private Vector2Int _size;
-	public  Vector2Int size {
-		get { return _size; }
-		set {
-			_size = value;
-			rTransform.sizeDelta = new Vector2(
-				value.x + (inv.GRID_SIZE * value.x) - 1,
-				value.y + (inv.GRID_SIZE * value.y) - 1
-			);
-		}
-	}
-	public Vector2 pixelSize {
-		get { return rTransform.sizeDelta; }
-	}
-
-	private bool _hidden = false;
-	public  bool hidden {
-		get { return _hidden; }
-		set {
-			if(value != _hidden){
-				_hidden = value;
-				obj.SetActive(!value);
-			}
-		}
-	}
-
-	public Color color {
-		get { return image.color; }
-		set { image.color = value; }
-	}
-
-	public void Destroy(){
-		Object.Destroy(obj);
-	}
-
-	private bool IsOutOfBounds(Vector2Int pos){
-		return (
-			pos.x < 0 ||
-			pos.y < 0 ||
-			pos.x >= inv.INV_WIDTH ||
-			pos.y >= inv.INV_HEIGHT
+	/* POSITION/SIZE ALTERING */
+	public Vector2 GridToRealPosition(Vector2Int pos){
+		return new Vector2(
+			 (pos.x + (GRID_SIZE.x * pos.x) + 1),
+			-(pos.y + (GRID_SIZE.y * pos.y) + 1)
 		);
 	}
-
-	protected virtual Vector2Int ClampPosition(Vector2Int pos){
+	public Vector2 GridToRealSize(Vector2Int size){
+		var x = Mathf.Min(size.x, inventory.WIDTH);
+		var y = Mathf.Min(size.y, inventory.HEIGHT);
+		return new Vector2(
+			x + (GRID_SIZE.x * x) - 1,
+			y + (GRID_SIZE.y * y) - 1
+		);
+	}
+	public Vector2Int ClampInside(Vector2Int pos, Vector2Int size){
 		return new Vector2Int(
-			Mathf.Clamp(pos.x, 0, inv.INV_WIDTH  - size.x),
-			Mathf.Clamp(pos.y, 0, inv.INV_HEIGHT - size.y)
+			Mathf.Clamp(pos.x, 0, inventory.WIDTH  - size.x),
+			Mathf.Clamp(pos.y, 0, inventory.HEIGHT - size.y)
 		);
 	}
-}
-
-class CenteredHighlight : Highlight {
-
-	public CenteredHighlight(InventoryRenderer inv): base(inv) {}
-
-	protected override Vector2Int ClampPosition(Vector2Int pos){
+	public Vector2Int ClampInsideCentered(Vector2Int pos, Vector2Int size){
 		return new Vector2Int(
-			Mathf.Clamp(pos.x - Mathf.FloorToInt(0.5f * size.x), 0, inv.INV_WIDTH  - size.x),
-			Mathf.Clamp(pos.y - Mathf.FloorToInt(0.5f * size.y), 0, inv.INV_HEIGHT - size.y)
+			Mathf.Clamp(pos.x - Mathf.FloorToInt(0.5f * size.x), 0, inventory.WIDTH  - size.x),
+			Mathf.Clamp(pos.y - Mathf.FloorToInt(0.5f * size.y), 0, inventory.HEIGHT - size.y)
 		);
 	}
 
-}
+	/* INTERNAL METHODS */
+	private void AddItem(OccupiedSlot slot){
+		var highlight = new Highlight(grid) {
+			color = ITEM_BACKGROUND,
+			position = GridToRealPosition(slot.position),
+			size = GridToRealSize(slot.item.size)
+		};
 
-public class Item {
-
-	private static Color BACKGROUND_COLOR = new Color(0, 0, 1.0f, 0.1f);
-
-	private ItemDef    itemDef;
-	private Highlight  background;
-	private GameObject obj;
-
-	public Item(InventoryRenderer inv, ItemDef itemDef){
-		this.itemDef    = itemDef;
-		this.background = inv.CreateHighlight();
-		background.size = itemDef.gridSize;
-		background.color = BACKGROUND_COLOR;
-
-		this.obj = Object.Instantiate(itemDef.resource, Vector3.zero, Quaternion.identity);
-		obj.transform.SetParent(inv.grid, false);
-		obj.transform.localScale = itemDef.scale;
-		AlignItem();
-	}
-
-	private bool _detached;
-	public  bool detached {
-		get { return _detached; }
-		set {
-			_detached = value;
-			background.hidden = value;
-			if(!value){
-				AlignItem();
-			}
-		}
-	}
-
-	public Vector2 itemPosition {
-		get { return obj.transform.localPosition; }
-		set {
-			if(!detached) return;
-			obj.transform.localPosition = new Vector3(
-				value.x, value.y, itemDef.position.z - 10
-			);
-		}
-	}
-
-	public Vector2Int position {
-		get { return background.position; }
-		set {
-			background.position = value;
-			AlignItem();
-		}
-	}
-
-	public Vector2Int size {
-		get { return itemDef.gridSize; }
-	}
-
-	public bool ContainsPoint(Vector2Int test){
-		return (
-			test.x >= position.x &&
-			test.y >= position.y &&
-			test.x < (position.x + size.x) &&
-			test.y < (position.y + size.y)
+		var obj = slot.item.CreateIcon(highlight.transform);
+		obj.transform.localPosition = new Vector3(
+			highlight.size.x / 2, -highlight.size.y / 2, 0
 		);
+
+		objects.Add(slot, highlight);
 	}
 
-	public bool Overlaps(Highlight target){
-		return (
-			position.x < target.position.x + target.size.x &&
-			position.x + size.x > target.position.x &&
-			position.y < target.position.y + target.size.y &&
-			position.y + size.y > target.position.y
-		);
-	}
-
-	private void AlignItem(){
-		obj.transform.localPosition = background.localPosition + itemDef.position;
-		obj.transform.localEulerAngles = itemDef.rotation;
+	private void RemoveItem(OccupiedSlot slot){
+		Highlight obj;
+		if(objects.TryGetValue(slot, out obj)){
+			obj.Destroy();
+			objects.Remove(slot);
+		}
 	}
 }

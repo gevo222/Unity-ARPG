@@ -1,17 +1,24 @@
-﻿using System.Collections;
+using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Events;
 
-public class CharacterStats : MonoBehaviour
+
+[Serializable] public class HealthUpdateEvent : UnityEvent<Transform, int> {}
+
+public class CharacterStats : MonoBehaviour, Interactable
 {
     Transform player;
+    [SerializeField] private HealthUpdateEvent healthUpdate;
+
     public int currentHP;
     public Stat maxHP;
     public Stat damage;
     public Stat armor;
     Animator anim;
     Animator playerAnim;
-    
+
 
     // Temporary test
     private void Update()
@@ -41,13 +48,14 @@ public class CharacterStats : MonoBehaviour
 
         // Take damage
         currentHP -= finalDamage;
+	healthUpdate?.Invoke(transform, currentHP);
 
         // Die when health reaches 0
         if (currentHP <= 0)
         {
            // Might need to make this overwriteable to give enemies deaths too
            StartCoroutine(Dead());
-         
+
         }
     }
 
@@ -78,7 +86,7 @@ public class CharacterStats : MonoBehaviour
 
             // play death animation
            anim.Play("Die");
-  
+
             // destroy it
            yield return new WaitForSeconds(2f);
            Destroy(gameObject);
@@ -95,7 +103,7 @@ public class CharacterStats : MonoBehaviour
     public void Heal(int rawHeal)
     {
         currentHP += rawHeal;
-        
+
 
         // Prevent overheal
         currentHP = Mathf.Clamp(currentHP, 0, maxHP.GetStat());

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class HoverShader : MonoBehaviour
 {
-    [SerializeField] private Shader hoverShader;
+    [SerializeField] public Shader hoverShader;
     private Shader defaultShader;
     private Renderer renderer;
 

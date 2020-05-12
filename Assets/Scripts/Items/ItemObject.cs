@@ -6,11 +6,19 @@ using UnityEngine;
 using UnityEditor;
 using RotaryHeart.Lib.SerializableDictionary;
 
+
 [Serializable]
 public class ItemValuesDictType : SerializableDictionaryBase<string, float> { }
 public enum ItemType
 {
-    Weapon
+    Weapon,
+    Chest,
+    Boots,
+    Gloves,
+    Helmet,
+    Belt,
+    Ring,
+    Amulet
 }
 
 [Serializable]
@@ -20,7 +28,9 @@ public class ItemObject : ScriptableObject
     [SerializeField] private string name;
     [SerializeField, TextArea(10,5)] private string flavorText;
     [SerializeField] private ItemType itemType;
-    [SerializeField] private GameObject prefab;
+    [SerializeField] private GameObject worldPrefab;
+    [SerializeField] private GameObject uiPrefab;
+    [SerializeField] private Sprite uiSprite;
     [SerializeField] private ItemValuesDictType values;
 
     [Header("Inventory")]
@@ -33,17 +43,19 @@ public class ItemObject : ScriptableObject
     public string Name => name;
     public string FlavorText => flavorText;
     public ItemType ItemType => itemType;
-    public GameObject Prefab => prefab;
+    public GameObject WorldPrefab => worldPrefab;
+    public GameObject UiPrefab => uiPrefab;
+    public Sprite UiSprite => uiSprite;
     public ItemValuesDictType Values => values;
 
     public Vector2Int InvSize => invSize;
 
     public float Rarity => rarity;
 
-    private static List<ItemObject> all = null;
+    private static Dictionary<string, ItemObject> all = null;
     private static void findAll()
     {
-        all = new List<ItemObject>{};
+        all = new Dictionary<string, ItemObject>{};
         var itemObjectGUIDs = AssetDatabase.FindAssets("t:ItemObject", new string[]{"Assets/Resources"});
         foreach (var guid in itemObjectGUIDs)
         {
@@ -51,9 +63,9 @@ public class ItemObject : ScriptableObject
             var objectPath = Path.ChangeExtension(AssetDatabase.GUIDToAssetPath(guid), null)
                                  .Remove(0, "Assets/Resources/".Length);
             var objectResource = Resources.Load<ItemObject>(objectPath);
-            all.Add(objectResource);
+            all.Add(objectPath, objectResource);
         }
     }
 
-    public static List<ItemObject> All { get { if (all == null) findAll(); return all; } }
+    public static Dictionary<string, ItemObject> All { get { if (all == null) findAll(); return all; } }
 }
