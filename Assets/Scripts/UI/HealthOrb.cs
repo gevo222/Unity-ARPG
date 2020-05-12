@@ -7,7 +7,7 @@ public class HealthOrb : MonoBehaviour {
 
 	private int currentHealth;
 
-	public void OnUpdateHealth(int hp){
+	public void OnUpdateHealth(Transform parent, int hp){
 		currentHealth = hp;
 
 	}

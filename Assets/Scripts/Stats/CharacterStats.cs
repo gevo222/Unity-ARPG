@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.Events;
 
 
-[Serializable] public class HealthUpdateEvent : UnityEvent<int> {}
+[Serializable] public class HealthUpdateEvent : UnityEvent<Transform, int> {}
 
 public class CharacterStats : MonoBehaviour, Interactable
 {
@@ -46,7 +46,7 @@ public class CharacterStats : MonoBehaviour, Interactable
 
         // Take damage
         currentHP -= finalDamage;
-		healthUpdate?.Invoke(currentHP);
+		healthUpdate?.Invoke(transform, currentHP);
 
         // Die when health reaches 0
         if (currentHP <= 0)
