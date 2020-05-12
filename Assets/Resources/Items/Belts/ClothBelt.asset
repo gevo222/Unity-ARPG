@@ -44,10 +44,10 @@ MonoBehaviour:
     isExpanded: 1
     _keyValues:
     - Armor
-    - Intellegence
+    - Intelligence
     _keys:
     - Armor
-    - Intellegence
+    - Intelligence
     _values:
     - 4
     - 6

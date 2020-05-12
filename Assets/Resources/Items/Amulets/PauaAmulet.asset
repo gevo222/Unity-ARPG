@@ -43,9 +43,9 @@ MonoBehaviour:
     reqReferences: {fileID: 0}
     isExpanded: 1
     _keyValues:
-    - Intellegence
+    - Intelligence
     _keys:
-    - Intellegence
+    - Intelligence
     _values:
     - 16
   invSize: {x: 1, y: 1}
