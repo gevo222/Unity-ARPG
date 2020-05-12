@@ -28,7 +28,7 @@ public class DamageNumbers : MonoBehaviour
         var damageTaken = prev - value;
 
         var textObj = pool.Dequeue();
-        textObj.transform.position = parent.position + Vector3.up;
+        textObj.transform.position = parent.position + Vector3.up * 2;
         textObj.SetActive(true);
         pool.Enqueue(textObj);
 
@@ -36,8 +36,8 @@ public class DamageNumbers : MonoBehaviour
         textMesh.color = damageTaken > 0 ? Color.red : Color.green;
         textMesh.SetText($"<b>{prev - value}</b>");
 
-        var rigidBody = textObj.GetComponentInChildren<Rigidbody2D>();
-        if (rigidBody) rigidBody.velocity = new Vector2(Random.Range(-1, 1), 1);
+        var rigidBody = textObj.GetComponent<Rigidbody2D>();
+        if (rigidBody) rigidBody.velocity = new Vector2(Random.Range(-0.5f, 0.5f), 1f);
 
         StartCoroutine(DisablePooledObject(textObj));
     }

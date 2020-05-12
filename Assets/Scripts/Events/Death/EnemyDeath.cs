@@ -23,7 +23,7 @@ public class EnemyDeath : MonoBehaviour, Death
     private IEnumerator Dead()
     {
         anim.Play("Die");
-        yield return new WaitForSeconds(respawnDelay);
+        yield return new WaitForSeconds(RespawnDelay);
         transform.position = RespawnLocation;
     }
 }

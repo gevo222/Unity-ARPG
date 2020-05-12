@@ -25,7 +25,7 @@ public class EnemySpawner : MonoBehaviour
                 if (RandomPoint(spawnPoint.position, spawnRange, out position))
                 {
                     var delay = Random.Range(spawnDelayInterval[0], spawnDelayInterval[1]);
-                    StartCoroutine(SpawnPrefab(position, delay * i, spawnPoint));
+                    StartCoroutine(SpawnPrefab(position, delay, spawnPoint));
                 }
             }
         }
