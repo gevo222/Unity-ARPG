@@ -22,6 +22,7 @@ public class EnemyController : MonoBehaviour
     private float attackCooldown = 0f;
 
 
+
     void Start()
     {
         player = Player.instance.transform;
@@ -32,7 +33,7 @@ public class EnemyController : MonoBehaviour
         enemyDamage = enemyStats.damage.GetStat();
         playerAnim = player.GetComponent<Animator>();
         enemyAnim = GetComponent<Animator>();
-
+        
 
         if (transform.tag == "Boss")
         {
@@ -63,7 +64,7 @@ public class EnemyController : MonoBehaviour
             {
                 FacePlayer();
 
-                
+                HealOutOfCombat.playerInCombat = true;
                 enemyAnim.SetBool("Run Forward", false);
 
                 if (attackCooldown <= 0f)
@@ -92,9 +93,12 @@ public class EnemyController : MonoBehaviour
             else
             {
                     playerAnim.SetBool("RClick", false);
+                    HealOutOfCombat.playerInCombat = false;
+                    Debug.Log(HealOutOfCombat.playerInCombat);
 
             }
         }
+        
     }
 
     // Face the player
