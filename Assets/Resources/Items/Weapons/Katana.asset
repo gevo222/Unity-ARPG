@@ -15,7 +15,10 @@ MonoBehaviour:
   name: Katana
   flavorText: 
   itemType: 0
-  prefab: {fileID: 2686061487495461216, guid: d1fd53d963621f830b277b40fd2f6d66, type: 3}
+  worldPrefab: {fileID: 2686061487495461216, guid: d1fd53d963621f830b277b40fd2f6d66,
+    type: 3}
+  uiPrefab: {fileID: 6317013222902112009, guid: cc78102fa6b7dc834acbccc6cf99f31d,
+    type: 3}
   values:
     reorderableList:
       canAdd: 1

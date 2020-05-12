@@ -1,6 +1,10 @@
 fileFormatVersion: 2
+<<<<<<< HEAD:Assets/Resources/UI/GIMP/Slot1x1.xcf.meta
+guid: c0335c83905f8cac587b9f36f174f868
+=======
 guid: 7cf8577b463f83546a78fb43210149de
 folderAsset: yes
+>>>>>>> master:Assets/Resources/PolygonAdventure/DemoScene/Demo_Scene.meta
 DefaultImporter:
   externalObjects: {}
   userData: 

@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+<<<<<<< HEAD:Assets/Scripts/Events/Interaction/ItemInteraction.cs.meta
+guid: bdab2c56222a1d417b3740fa7d4eaf3f
+=======
+guid: c2d89e932e62355acb206ab415947112
+>>>>>>> master:Assets/Scripts/Events/Interaction/GodmodeKill.cs.meta
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

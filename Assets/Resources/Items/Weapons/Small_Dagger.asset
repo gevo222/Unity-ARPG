@@ -15,7 +15,10 @@ MonoBehaviour:
   name: Small Dagger
   flavorText: 
   itemType: 0
-  prefab: {fileID: 5424737887314652707, guid: 4e406c913e16b8b6d87838fc9c778a89, type: 3}
+  worldPrefab: {fileID: 5424737887314652707, guid: 4e406c913e16b8b6d87838fc9c778a89,
+    type: 3}
+  uiPrefab: {fileID: 5521710278794266225, guid: e313de75836e97750af47545a897e500,
+    type: 3}
   values:
     reorderableList:
       canAdd: 1
