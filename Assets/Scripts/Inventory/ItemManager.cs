@@ -56,12 +56,12 @@ public class ItemManager : MonoBehaviour {
 		}
 
 		var def = item.definition;
-		var txt = "<b>" + def.Name + "</b>\n";
+		var txt = "<align=center><b>" + def.Name + "</align></b>\n";
 
 		foreach(var val in def.Values){
 			var name = val.Key;
 			var color = GetAttributeColor(name);
-			txt += $"<color={color}><size=20>+{val.Value} {name}</size></color>\n";
+			txt += $"<color={color}><size=20> +{val.Value} {name}</size></color>\n";
 		}
 
 		tooltipText.SetText(txt);
@@ -77,7 +77,7 @@ public class ItemManager : MonoBehaviour {
 			case "Dexterity":
 				return "#00CC00";
 			case "Intelligence":
-				return "#0000CC";
+				return "#0055FF";
 			default:
 				return "#FFFFFF";
 		}

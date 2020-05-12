@@ -32,7 +32,7 @@ public class ItemSpawner : MonoBehaviour {
 		obj.transform.SetParent(parent.transform, false);
 		obj.transform.localScale *= itemScaleFactor;
 		obj.transform.localEulerAngles += new Vector3(
-			0, Random.Range(0,360), Random.Range(60, 120)
+			Random.Range(0,360), Random.Range(0,360), Random.Range(0,360)
 		);
 
 		var rigidbody = obj.AddComponent<Rigidbody>();
@@ -50,7 +50,7 @@ public class ItemSpawner : MonoBehaviour {
 
 	public GameObject SpawnNearPlayer(ItemObject item){
 		var nearby = new Vector3(
-			Random.Range(-1.5f, 1.5f), Random.Range(2, 3), Random.Range(-1.5f, 1.5f)
+			Random.Range(-2.0f, 2.0f), Random.Range(1, 4), Random.Range(-2.0f, 2.0f)
 		);
 		return Spawn(item, playerPosition.position + nearby);
 	}
