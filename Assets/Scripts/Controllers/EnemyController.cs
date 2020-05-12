@@ -12,8 +12,6 @@ public class EnemyController : MonoBehaviour
     NavMeshAgent agent;
     CharacterStats playerStats;
     CharacterStats enemyStats;
-    int enemyDamage;
-    int playerDamage;
     int elapsedTime;
     Animator playerAnim;
     Animator enemyAnim;
@@ -26,8 +24,6 @@ public class EnemyController : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         playerStats = player.GetComponent<CharacterStats>();
         enemyStats = GetComponent<CharacterStats>();
-        playerDamage = playerStats.damage.GetStat();
-        enemyDamage = enemyStats.damage.GetStat();
         playerAnim = player.GetComponent<Animator>();
         enemyAnim = GetComponent<Animator>();
         fightMusic = GetComponent<AudioSource>();
@@ -53,28 +49,27 @@ public class EnemyController : MonoBehaviour
                 //Damage player's stats
                 // playerStats.TakeDamage(enemyDamage);
                 //Damage enemy's stats
-                enemyStats.TakeDamage(playerDamage);
+                playerStats.Attack(enemyStats);
                 //Play attack animation for player
                 playerAnim.SetBool("RClick", true);
                 //Play attack animation for enemy
-                    enemyAnim.SetTrigger("Stab Attack");
+                enemyAnim.SetTrigger("Stab Attack");
 
                 // Deal double damage with cyclone
                 if (playerAnim.GetBool("Q"))
                 {
-                    enemyStats.TakeDamage(playerDamage);
+                    playerStats.Attack(enemyStats);
                 }
-                
+
             }
             else
             {
-                    playerAnim.SetBool("RClick", false);
+                playerAnim.SetBool("RClick", false);
 
             }
         }
     }
 
-    // Face the player
     void FacePlayer()
     {
         Vector3 direction = (player.position - transform.position).normalized;
@@ -82,13 +77,10 @@ public class EnemyController : MonoBehaviour
         transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
     }
 
-    // Show aggro range
     void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(transform.position, lookRadius);
     }
-
-
 
 }

@@ -33,7 +33,10 @@ public class EnemySpawner : MonoBehaviour
     {
         yield return new WaitForSeconds(delay);
         var instance = Instantiate(prefab, position, Quaternion.identity);
+        var death = instance.GetComponent<EnemyDeath>();
         instance.transform.parent = parent;
+        death.RespawnLocation = position;
+        death.RespawnDelay = delay;
     }
 
     bool RandomPoint(Vector3 center, float range, out Vector3 result)
