@@ -432,6 +432,7 @@ GameObject:
   - component: {fileID: 8529033878011729146}
   - component: {fileID: 8529033878011729147}
   - component: {fileID: 8529033878011729137}
+  - component: {fileID: 6558698408438664397}
   m_Layer: 0
   m_Name: PlayerWithCyclone
   m_TagString: Player
@@ -521,6 +522,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cam: {fileID: 0}
   interactDistance: 3
+  Event:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!95 &8529033878011729146
 Animator:
   serializedVersion: 3
@@ -565,6 +569,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   obj: {fileID: 1290807902767722627}
+--- !u!114 &6558698408438664397
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1290807902767722627}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2d89e932e62355acb206ab415947112, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1290807902767726863
 GameObject:
   m_ObjectHideFlags: 0

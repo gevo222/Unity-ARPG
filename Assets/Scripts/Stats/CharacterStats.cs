@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class CharacterStats : MonoBehaviour
+public class CharacterStats : MonoBehaviour, Interactable
 {
     public int currentHP;
     public Stat maxHP;
@@ -44,7 +44,7 @@ public class CharacterStats : MonoBehaviour
         {
            // Might need to make this overwriteable to give enemies deaths too
            StartCoroutine(Dead());
-         
+
         }
     }
 
@@ -70,7 +70,7 @@ public class CharacterStats : MonoBehaviour
     public void Heal(int rawHeal)
     {
         currentHP += rawHeal;
-        
+
 
         // Prevent overheal
         currentHP = Mathf.Clamp(currentHP, 0, maxHP.GetStat());
