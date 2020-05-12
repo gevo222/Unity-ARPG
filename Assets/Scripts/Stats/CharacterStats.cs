@@ -7,7 +7,7 @@ using UnityEngine.Events;
 
 [Serializable] public class HealthUpdateEvent : UnityEvent<int> {}
 
-public class CharacterStats : MonoBehaviour
+public class CharacterStats : MonoBehaviour, Interactable
 {
 	[SerializeField]
 	private HealthUpdateEvent healthUpdate;
@@ -53,7 +53,7 @@ public class CharacterStats : MonoBehaviour
         {
            // Might need to make this overwriteable to give enemies deaths too
            StartCoroutine(Dead());
-         
+
         }
     }
 
@@ -79,7 +79,7 @@ public class CharacterStats : MonoBehaviour
     public void Heal(int rawHeal)
     {
         currentHP += rawHeal;
-        
+
 
         // Prevent overheal
         currentHP = Mathf.Clamp(currentHP, 0, maxHP.GetStat());
