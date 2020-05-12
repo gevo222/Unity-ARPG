@@ -94,7 +94,7 @@ public class EnemyController : MonoBehaviour
             {
                     playerAnim.SetBool("RClick", false);
                     HealOutOfCombat.playerInCombat = false;
-                    Debug.Log(HealOutOfCombat.playerInCombat);
+                   
 
             }
         }

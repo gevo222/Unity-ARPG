@@ -13,15 +13,6 @@ public class CharacterStats : MonoBehaviour
     Animator playerAnim;
     
 
-    // Temporary test
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.T))
-        {
-           Heal(10);
-        }
-    }
-
     public virtual void Start()
     {
         player = Player.instance.transform;
@@ -85,8 +76,14 @@ public class CharacterStats : MonoBehaviour
 
             // player stops attacking
             playerAnim.SetBool("RClick", false);
+            Level.currentXP += 1;
+            Debug.Log("xp: " + Level.currentXP);
+            Debug.Log("LVL: " + Level.level);
 
-
+            if (transform.tag == "Boss")
+            {
+                Level.currentXP += 9;
+            }
         }
 
     }
