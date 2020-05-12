@@ -14,7 +14,7 @@ public class LightningBolt : MonoBehaviour
         var targetStats = target.GetComponent<CharacterStats>();
         if (actorStats && targetStats)
         {
-            actorStats.Attack(targetStats, 1.3f);
+            actorStats.Attack(targetStats, 2f);
             StartCoroutine(PlayLightningBoltAt(target.transform.position));
         }
     }
