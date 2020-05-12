@@ -6,6 +6,7 @@ using UnityEngine.Assertions;
 public class EnemySpawner : MonoBehaviour
 {
     [SerializeField] private GameObject prefab;
+    [SerializeField] private DeathEvent killManager;
     [SerializeField] private int spawnCount;
     [SerializeField] private int spawnRange;
     [SerializeField] private Vector2 spawnDelayInterval;
@@ -33,7 +34,12 @@ public class EnemySpawner : MonoBehaviour
     {
         yield return new WaitForSeconds(delay);
         var instance = Instantiate(prefab, position, Quaternion.identity);
+        var death = instance.GetComponent<EnemyDeath>();
+        var stats = instance.GetComponent<CharacterStats>();
         instance.transform.parent = parent;
+        death.RespawnLocation = position;
+        death.RespawnDelay = delay;
+        stats.HealthUpdate.AddListener(killManager.OnUpdateHealth);
     }
 
     bool RandomPoint(Vector3 center, float range, out Vector3 result)

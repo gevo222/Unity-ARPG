@@ -1,26 +1,33 @@
 using System;
+using System.Runtime.CompilerServices;
 using System.Collections;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.Events;
 
+// Allows EnemyController to access Damage ! not recommended
+[assembly: InternalsVisibleTo("EnemyController")]
 
 [Serializable] public class HealthUpdateEvent : UnityEvent<Transform, int> {}
 
 public class CharacterStats : MonoBehaviour, Interactable
 {
-    Transform player;
+    public HealthUpdateEvent HealthUpdate => healthUpdate;
+
     [SerializeField] private HealthUpdateEvent healthUpdate;
+    [SerializeField] private Stat maxHP;
+    [SerializeField] private Stat damage;
+    [SerializeField] private Stat armor;
 
-    public int currentHP;
-    public Stat maxHP;
-    public Stat damage;
-    public Stat armor;
-    Animator anim;
-    Animator playerAnim;
+    private int _currentHealth;
+    private int currentHP {
+        get { return _currentHealth; }
+        set {
+            _currentHealth = value;
+	    this.HealthUpdate?.Invoke(transform, value);
+        }
+    }
 
-
-    // Temporary test
+     // Temporary test
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.T))
@@ -31,84 +38,26 @@ public class CharacterStats : MonoBehaviour, Interactable
 
     public virtual void Start()
     {
-        player = Player.instance.transform;
-        playerAnim = player.GetComponent<Animator>();
-        anim = GetComponent<Animator>();
-        // Spawn with Max HP
+        if (healthUpdate == null)
+        {
+            healthUpdate = new HealthUpdateEvent();
+        }
         currentHP = maxHP.GetStat();
     }
 
-    // Calculate and deal damage
+    public void Attack(CharacterStats target, float multiplier = 1f)
+    {
+        target.TakeDamage((int)(damage.GetStat() * multiplier));
+    }
+
     public void TakeDamage(int rawDamage)
     {
-        // Reduce damage with armor
-        int finalDamage = rawDamage;
-        finalDamage -= armor.GetStat();
-        finalDamage = Mathf.Clamp(finalDamage, 0, int.MaxValue);
-
-        // Take damage
-        currentHP -= finalDamage;
-	healthUpdate?.Invoke(transform, currentHP);
-
-        // Die when health reaches 0
-        if (currentHP <= 0)
-        {
-           // Might need to make this overwriteable to give enemies deaths too
-           StartCoroutine(Dead());
-
-        }
+        var finalDamage = Mathf.Clamp(rawDamage - armor.GetStat(), 0, 9999);
+        currentHP = currentHP - rawDamage;
     }
 
-    // Player death
-    public IEnumerator Dead()
-    {
-
-        // If player dies
-        if (transform.tag == "Player")
-        {
-
-            // Play death animation
-            anim.SetBool("dead", true);
-
-            // TODO: Game Over message
-
-
-            // Wait
-            yield return new WaitForSeconds(2f);
-
-            // Restart level Prompt
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-        }
-
-        // if anything else dies
-        else
-        {
-
-            // play death animation
-           anim.Play("Die");
-
-            // destroy it
-           yield return new WaitForSeconds(2f);
-           Destroy(gameObject);
-
-            // player stops attacking
-            playerAnim.SetBool("RClick", false);
-
-
-        }
-
-    }
-
-    // Heal the character.
     public void Heal(int rawHeal)
     {
-        currentHP += rawHeal;
-
-
-        // Prevent overheal
-        currentHP = Mathf.Clamp(currentHP, 0, maxHP.GetStat());
+        currentHP = currentHP + rawHeal;
     }
-
-
-
 }
