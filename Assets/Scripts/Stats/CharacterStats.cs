@@ -19,11 +19,11 @@ public class CharacterStats : MonoBehaviour, Interactable
     [SerializeField] private Stat armor;
 
     private int _currentHealth;
-    private int currentHP {
+    public int currentHP {
         get { return _currentHealth; }
-        set {
-            _currentHealth = value;
+        private set {
 	    this.HealthUpdate?.Invoke(transform, value);
+            _currentHealth = value;
         }
     }
 

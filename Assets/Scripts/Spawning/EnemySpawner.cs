@@ -7,6 +7,7 @@ public class EnemySpawner : MonoBehaviour
 {
     [SerializeField] private GameObject prefab;
     [SerializeField] private DeathEvent killManager;
+    [SerializeField] private DamageNumbers damageNumbers;
     [SerializeField] private int spawnCount;
     [SerializeField] private int spawnRange;
     [SerializeField] private Vector2 spawnDelayInterval;
@@ -40,6 +41,7 @@ public class EnemySpawner : MonoBehaviour
         death.RespawnLocation = position;
         death.RespawnDelay = delay;
         stats.HealthUpdate.AddListener(killManager.OnUpdateHealth);
+        stats.HealthUpdate.AddListener(damageNumbers.OnUpdateHealth);
     }
 
     bool RandomPoint(Vector3 center, float range, out Vector3 result)

@@ -22,11 +22,8 @@ public class EnemyDeath : MonoBehaviour, Death
 
     private IEnumerator Dead()
     {
-        anim.SetBool("dead", true);
-        yield return new WaitForSeconds(2f);
-        gameObject.SetActive(false);
+        anim.Play("Die");
+        yield return new WaitForSeconds(respawnDelay);
         transform.position = RespawnLocation;
-        yield return new WaitForSeconds(RespawnDelay);
-        gameObject.SetActive(true);
     }
 }

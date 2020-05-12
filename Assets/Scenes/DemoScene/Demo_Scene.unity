@@ -1252,7 +1252,7 @@ GameObject:
   - component: {fileID: 31950437}
   m_Layer: 0
   m_Name: Viking Spawners
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1265,7 +1265,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 31950435}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 9.3, y: 6, z: -88.3}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1965978956}
@@ -1287,6 +1287,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 175192, guid: 996b1cdc214c6ad43b2b0a8dc6ab12ed, type: 3}
   killManager: {fileID: 1857650285}
+  damageNumbers: {fileID: 271018789}
   spawnCount: 20
   spawnRange: 25
   spawnDelayInterval: {x: 2, y: 5}
@@ -11242,6 +11243,51 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 270027708}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &271018787
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 271018788}
+  - component: {fileID: 271018789}
+  m_Layer: 0
+  m_Name: DamageNumbers
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &271018788
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 271018787}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 600367777}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &271018789
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 271018787}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6936d5c28869a461395a242003a451a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 8040684154432002377, guid: 78a77b776e39b45f791b1a49015ccbb7, type: 3}
+  poolSize: 5
 --- !u!1001 &271110358
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -23130,6 +23176,7 @@ Transform:
   - {fileID: 1112227752}
   - {fileID: 1781082307}
   - {fileID: 1857650284}
+  - {fileID: 271018788}
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -43111,6 +43158,11 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 1290807902771041255, guid: 4c950421b571eb0478b17a5c43550233,
+        type: 3}
+      propertyPath: m_IsKinematic
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1290807903025411842, guid: 4c950421b571eb0478b17a5c43550233,
         type: 3}
       propertyPath: Event.m_PersistentCalls.m_Calls.Array.size
@@ -43166,6 +43218,16 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 6917087074427601126, guid: 4c950421b571eb0478b17a5c43550233,
+        type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7311330641626539997, guid: 4c950421b571eb0478b17a5c43550233,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 7682197732789792358, guid: 4c950421b571eb0478b17a5c43550233,
         type: 3}
       propertyPath: healthUpdate.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -43176,6 +43238,11 @@ PrefabInstance:
       propertyPath: healthUpdate.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
       objectReference: {fileID: 1857650285}
+    - target: {fileID: 8529033878011729137, guid: 4c950421b571eb0478b17a5c43550233,
+        type: 3}
+      propertyPath: collider
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 8723441171934377532, guid: 4c950421b571eb0478b17a5c43550233,
         type: 3}
       propertyPath: cam
@@ -43194,6 +43261,7 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 1290807903025411842, guid: 4c950421b571eb0478b17a5c43550233, type: 3}
     - {fileID: 6558698408438664397, guid: 4c950421b571eb0478b17a5c43550233, type: 3}
+    - {fileID: 4143666182494595602, guid: 4c950421b571eb0478b17a5c43550233, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 4c950421b571eb0478b17a5c43550233, type: 3}
 --- !u!1001 &1132273523
 PrefabInstance:
@@ -61769,7 +61837,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1588259129}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -25, y: -15.9, z: 76.4}
+  m_LocalPosition: {x: 41.75, y: -3.4, z: -25.88}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 31950436}
@@ -68667,6 +68735,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19953c79dd69e2a128b41c4ba355a884, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lightingPrefab: {fileID: 6891125891046704816, guid: e2c27c88667fb3ed7a4d369852cde2f2,
+    type: 3}
 --- !u!1001 &1782452060
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -73140,7 +73210,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1893565476}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6.855001, y: -3.9844394, z: 22.985168}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 31950436}
@@ -75744,7 +75814,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1965978955}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -19.11, y: -4.05, z: -2.067}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 31950436}
