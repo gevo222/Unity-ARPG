@@ -30,7 +30,12 @@ public class EnemyController : MonoBehaviour
         enemyDamage = enemyStats.damage.GetStat();
         playerAnim = player.GetComponent<Animator>();
         enemyAnim = GetComponent<Animator>();
-        fightMusic = GetComponent<AudioSource>();
+
+
+        if (transform.tag == "Boss")
+        {
+            fightMusic = GetComponent<AudioSource>();
+        }
     }
 
     void Update()
@@ -42,7 +47,11 @@ public class EnemyController : MonoBehaviour
             // Follow the player
             agent.SetDestination(player.position);
             enemyAnim.SetBool("Run Forward", true);
-
+            if (transform.tag == "Boss")
+            {
+                fightMusic.enabled = true;
+            }
+            
             // If already in range, always face the player
             if (distance <= agent.stoppingDistance)
             {
