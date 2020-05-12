@@ -1,9 +1,17 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Events;
+
+
+[Serializable] public class HealthUpdateEvent : UnityEvent<int> {}
 
 public class CharacterStats : MonoBehaviour
 {
+	[SerializeField]
+	private HealthUpdateEvent healthUpdate;
+
     public int currentHP;
     public Stat maxHP;
     public Stat damage;
@@ -38,6 +46,7 @@ public class CharacterStats : MonoBehaviour
 
         // Take damage
         currentHP -= finalDamage;
+		healthUpdate?.Invoke(currentHP);
 
         // Die when health reaches 0
         if (currentHP <= 0)
