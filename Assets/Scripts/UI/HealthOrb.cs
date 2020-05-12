@@ -5,10 +5,17 @@ using UnityEngine;
 
 public class HealthOrb : MonoBehaviour {
 
-	private int currentHealth;
+	private RectTransform rectTransform;
+
+	void Awake(){
+		rectTransform = GetComponent<RectTransform>();
+	}
 
 	public void OnUpdateHealth(Transform parent, int hp){
-		currentHealth = hp;
 
+		var maxSize = rectTransform.sizeDelta.y - 10.0f;
+		var offset = (hp / 100.0f) * maxSize;
+
+		rectTransform.anchoredPosition = new Vector2(0, -offset);
 	}
 }
