@@ -14,7 +14,7 @@ public class Item {
 	}
 
 
-	private ItemObject definition;
+	public ItemObject definition;
 	public Item(ItemObject definition){
 		this.definition = definition;
 	}

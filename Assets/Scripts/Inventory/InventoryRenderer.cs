@@ -46,13 +46,18 @@ public class InventoryRenderer :
 	}
 
 	void Update(){
-		var held = ItemManager.main.holdingItem;
-		if(!inside || held == null)
+		if(!inside)
 			return;
 
 		var gridPos = ScreenToGrid(Input.mousePosition);
-		hover.position = gridPos;
+		OccupiedSlot slot = inventory.GetItemAt(gridPos);
+		ItemManager.main.SetTooltip(slot?.item);
 
+		var held = ItemManager.main.holdingItem;
+		if(held == null)
+			return;
+
+		hover.position = gridPos;
 		var hoverPos = hover.position; //this value is now clamped. fuck it
 		hover.hidden = false;
 		hover.size   = held.size;
@@ -101,6 +106,7 @@ public class InventoryRenderer :
 	public void OnPointerExit(PointerEventData evt){
 		inside = false;
 		hover.hidden = true;
+		ItemManager.main.SetTooltip(null);
 	}
 
 	/* POSITION TRANSFORMATIONS */
@@ -149,7 +155,6 @@ public class InventoryRenderer :
 			Mathf.Clamp(pos.y - Mathf.FloorToInt(0.5f * size.y), 0, inventory.HEIGHT - size.y)
 		);
 	}
-
 
 	/* INTERNAL METHODS */
 	private void AddItem(OccupiedSlot slot){

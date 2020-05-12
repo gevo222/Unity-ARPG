@@ -24,20 +24,11 @@ public class Inventory : MonoBehaviour {
 
 	private bool[,] grid;
 
-	void Awake(){
-		items         = new List<OccupiedSlot>();
+	private Inventory(){
 		grid          = new bool[WIDTH, HEIGHT];
+		items         = new List<OccupiedSlot>();
 		OnItemAdded   = new ItemEvent();
 		OnItemRemoved = new ItemEvent();
-
-		// TODO: temporary hack to test items
-		//try {
-		//	Add( new Item(ItemObject.All["Items/Weapons/Epic_Dagger"]) );
-		//	Add( new Item(ItemObject.All["Items/Weapons/Katana"]) );
-		//	Add( new Item(ItemObject.All["Items/Weapons/Rapier"]) );
-		//	Add( new Item(ItemObject.All["Items/Weapons/Small_Dagger"]) );
-		//	Add( new Item(ItemObject.All["Items/Weapons/Cutter"]) );
-		//} catch(System.Exception){}
 	}
 
 	public OccupiedSlot Add(Item item){
