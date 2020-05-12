@@ -45,9 +45,9 @@ public class CharacterStats : MonoBehaviour, Interactable
         currentHP = maxHP.GetStat();
     }
 
-    public void Attack(CharacterStats target)
+    public void Attack(CharacterStats target, float multiplier = 1f)
     {
-        target.TakeDamage(damage.GetStat());
+        target.TakeDamage((int)(damage.GetStat() * multiplier));
     }
 
     public void TakeDamage(int rawDamage)

@@ -11,7 +11,7 @@ public class LightningBolt : MonoBehaviour
         var targetStats = target.GetComponent<CharacterStats>();
         if (actorStats && targetStats)
         {
-            actorStats.Attack(targetStats);
+            actorStats.Attack(targetStats, 9999f);
         }
     }
 }
