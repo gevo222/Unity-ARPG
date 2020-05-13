@@ -15,12 +15,9 @@ public class ChestInteraction : MonoBehaviour {
 		var origin = target.transform.position;
 		Object.Destroy(target);
 
-		var itemPool = ItemObject.All.Values.ToList();
 		for(int i = 0; i < lootable.itemCount; i++){
-			var index = Random.Range(0, itemPool.Count);
-			var itemDef = itemPool[index];
+			var itemDef = ItemObject.GetRandomItem();
 			ItemSpawner.main.SpawnNear(itemDef, origin);
-			itemPool.RemoveAt(index);
 		}
 
 	}

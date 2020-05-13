@@ -50,14 +50,19 @@ public class EnemyDeath : MonoBehaviour, Death
     {
         anim.Play("Die");
         yield return new WaitForSeconds(1.5f);
+
+        Level.currentXP += 1;
+		if(Random.Range(0, 100) <= 30){
+			ItemSpawner.main.SpawnNear(
+				ItemObject.GetRandomItem(), transform.position
+			);
+		}
         SetComponentEnabled(false);
+
         yield return new WaitForSeconds(RespawnDelay);
         stats.ResetHealth();
         SetComponentEnabled(true);
         transform.position = RespawnLocation;
-        Level.currentXP += 1;
         playerAnim.SetBool("RClick", false);
-
-        
     }
 }

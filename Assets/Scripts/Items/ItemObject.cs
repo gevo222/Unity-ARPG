@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,7 +6,7 @@ using UnityEditor;
 using RotaryHeart.Lib.SerializableDictionary;
 
 
-[Serializable]
+[System.Serializable]
 public class ItemValuesDictType : SerializableDictionaryBase<string, float> { }
 public enum ItemType
 {
@@ -21,7 +20,7 @@ public enum ItemType
     Amulet
 }
 
-[Serializable]
+[System.Serializable]
 [CreateAssetMenu(fileName = "New Item", menuName = "ARPG/ItemData", order = 1)]
 public class ItemObject : ScriptableObject
 {
@@ -52,10 +51,13 @@ public class ItemObject : ScriptableObject
 
     public float Rarity => rarity;
 
-    private static Dictionary<string, ItemObject> all = null;
+    private static List<ItemObject> all = null;
+    private static Dictionary<string, ItemObject> byPath= null;
+
     private static void findAll()
     {
-        all = new Dictionary<string, ItemObject>{};
+        all = new List<ItemObject>{};
+        byPath = new Dictionary<string, ItemObject>{};
         var itemObjectGUIDs = AssetDatabase.FindAssets("t:ItemObject", new string[]{"Assets/Resources"});
         foreach (var guid in itemObjectGUIDs)
         {
@@ -63,9 +65,20 @@ public class ItemObject : ScriptableObject
             var objectPath = Path.ChangeExtension(AssetDatabase.GUIDToAssetPath(guid), null)
                                  .Remove(0, "Assets/Resources/".Length);
             var objectResource = Resources.Load<ItemObject>(objectPath);
-            all.Add(objectPath, objectResource);
+			all.Add(objectResource);
+            byPath.Add(objectPath, objectResource);
         }
     }
 
-    public static Dictionary<string, ItemObject> All { get { if (all == null) findAll(); return all; } }
+    public static List<ItemObject> All {
+		get { if(all == null) findAll(); return all; }
+	}
+    public static Dictionary<string, ItemObject> ByPath {
+		get { if(byPath == null) findAll(); return byPath; }
+	}
+
+	public static ItemObject GetRandomItem(){
+		var index = Random.Range(0, All.Count);
+		return All[index];
+	}
 }

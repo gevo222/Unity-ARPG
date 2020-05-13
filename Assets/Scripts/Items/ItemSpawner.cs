@@ -20,10 +20,6 @@ public class ItemSpawner : MonoBehaviour {
 
 	void Start(){
 		ItemSpawner.main = this;
-		//SpawnNearPlayer(ItemObject.All["Items/Amulets/PauaAmulet"]);
-		//SpawnNearPlayer(ItemObject.All["Items/Boots/EelskinBoots"]);
-		//SpawnNearPlayer(ItemObject.All["Items/Weapons/Cutter"]);
-		//SpawnNearPlayer(ItemObject.All["Items/Weapons/Epic_Dagger"]);
 	}
 
 	public GameObject Spawn(ItemObject item, Vector3 position){
