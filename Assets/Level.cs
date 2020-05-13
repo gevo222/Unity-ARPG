@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Level : MonoBehaviour
 {
+	public ExperienceProgress xp;
+
     public static int currentXP;
     public static int level;
     public Stat maxXP;
@@ -20,7 +22,10 @@ public class Level : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (currentXP >= maxXP.Initvalue)
+        var xpPercent = (1.0f * currentXP / maxXP.Initvalue);
+		xp.SetPercent(Mathf.Min(1.0f, xpPercent));
+
+        if (xpPercent >= 1.0f)
         {
             level++;
             currentXP = 0;
