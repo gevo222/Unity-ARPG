@@ -41,6 +41,11 @@ public class CharacterStats : MonoBehaviour, Interactable
         target.TakeDamage((int)(damage.GetStat() * multiplier));
     }
 
+    public void ResetHealth()
+    {
+        currentHP = maxHP.GetStat();
+    }
+
     public void TakeDamage(int rawDamage)
     {
         var finalDamage = Mathf.Clamp(rawDamage - armor.GetStat(), 0, 9999);
