@@ -1177,6 +1177,7 @@ GameObject:
   - component: {fileID: 8939340413877561803}
   - component: {fileID: 3488104441146577912}
   - component: {fileID: 2845644264973351626}
+  - component: {fileID: 177296258570539084}
   m_Layer: 0
   m_Name: RedBeetleMinion
   m_TagString: Enemy
@@ -1298,9 +1299,9 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 2
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 1, z: 0}
+  m_Height: 3
+  m_Direction: 0
+  m_Center: {x: 0, y: 2, z: 0}
 --- !u!114 &8939340413877561803
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1349,6 +1350,84 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hoverShader: {fileID: 4800000, guid: 36d222f782f97d7ddb7e8bf1ee77d079, type: 3}
+--- !u!137 &177296258570539084
+SkinnedMeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8939340413877561800}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RenderingLayerMask: 4294967295
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: bcaad48fae9d78948944fe183b6e39fe, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  serializedVersion: 2
+  m_Quality: 0
+  m_UpdateWhenOffscreen: 0
+  m_SkinnedMotionVectors: 1
+  m_Mesh: {fileID: 4300000, guid: 66ca9bf0145725543a1e8a693589f362, type: 3}
+  m_Bones:
+  - {fileID: 8939340413571107511}
+  - {fileID: 8939340414187377945}
+  - {fileID: 8939340412797891958}
+  - {fileID: 8939340413062633815}
+  - {fileID: 8939340412901731571}
+  - {fileID: 8939340414073250617}
+  - {fileID: 8939340413632156170}
+  - {fileID: 8939340412469120244}
+  - {fileID: 8939340413542355161}
+  - {fileID: 8939340413889512547}
+  - {fileID: 8939340413782411842}
+  - {fileID: 8939340412255296493}
+  - {fileID: 8939340413784811793}
+  - {fileID: 8939340413157676381}
+  - {fileID: 8939340413812710479}
+  - {fileID: 8939340412252619366}
+  - {fileID: 8939340413219932752}
+  - {fileID: 8939340412332242997}
+  - {fileID: 8939340412190270875}
+  - {fileID: 8939340413110279867}
+  - {fileID: 8939340413372588414}
+  - {fileID: 8939340412238567211}
+  - {fileID: 8939340413042293547}
+  - {fileID: 8939340413111385148}
+  - {fileID: 8939340413384930940}
+  - {fileID: 8939340413978023970}
+  - {fileID: 8939340413107254043}
+  m_BlendShapeWeights: []
+  m_RootBone: {fileID: 8939340413062633815}
+  m_AABB:
+    m_Center: {x: -0.5955523, y: 0.47306192, z: 0.000007748604}
+    m_Extent: {x: 2.277113, y: 1.2932206, z: 2.1682854}
+  m_DirtyAABB: 0
 --- !u!1 &8939340413889512544
 GameObject:
   m_ObjectHideFlags: 0
@@ -1488,7 +1567,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8939340414104078429
 Transform:
   m_ObjectHideFlags: 0
