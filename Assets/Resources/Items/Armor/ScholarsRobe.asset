@@ -15,7 +15,7 @@ MonoBehaviour:
   name: Scholar's Robe
   flavorText: 
   itemType: 1
-  worldPrefab: {fileID: 2068844038007576259, guid: d4391fd579d4058fd996ea8412febbb0,
+  worldPrefab: {fileID: 6274743073383092723, guid: fe24651d93b9ec4a28c0b5e0130f8abc,
     type: 3}
   uiPrefab: {fileID: 0}
   uiSprite: {fileID: 21300000, guid: 5ec5a42016197ecb998f5cbcbf5061a5, type: 3}
