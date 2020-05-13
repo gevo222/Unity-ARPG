@@ -1118,56 +1118,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 30113742}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &31950435
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 31950436}
-  - component: {fileID: 31950437}
-  m_Layer: 0
-  m_Name: Viking Spawners
-  m_TagString: Enemy
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &31950436
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 31950435}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 1588259130}
-  m_Father: {fileID: 1893565477}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &31950437
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 31950435}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5805bd5acc259bca4a22dbf7ed1f7f9a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  prefab: {fileID: 175192, guid: 996b1cdc214c6ad43b2b0a8dc6ab12ed, type: 3}
-  killManager: {fileID: 0}
-  damageNumbers: {fileID: 0}
-  spawnCount: 20
-  spawnRange: 25
-  spawnDelayInterval: {x: 2, y: 5}
 --- !u!1001 &37940691
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10073,6 +10023,18 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1131655393}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &236503492 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5621105935572944952, guid: 4c950421b571eb0478b17a5c43550233,
+    type: 3}
+  m_PrefabInstance: {fileID: 1131655393}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 236503491}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80b99e4d0f14e436c808f1f92bcf8111, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &236503503
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10085,7 +10047,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 235020b133f04e049b375632035291ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healSpeed: 1
+  healSpeed: 4
 --- !u!114 &236503504
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10196,6 +10158,12 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!4 &236503506 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1290807902767623331, guid: 4c950421b571eb0478b17a5c43550233,
+    type: 3}
+  m_PrefabInstance: {fileID: 1131655393}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &236780847
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13722,7 +13690,7 @@ MonoBehaviour:
   HIGHLIGHT_NORMAL: {r: 1, g: 1, b: 1, a: 0.08}
   HIGHLIGHT_ERROR: {r: 1, g: 0, b: 0, a: 0.16}
   ITEM_BACKGROUND: {r: 0, g: 0, b: 1, a: 0.1}
-  inventory: {fileID: 0}
+  inventory: {fileID: 233453039}
 --- !u!114 &328471840
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15383,7 +15351,7 @@ Transform:
   - {fileID: 447290689}
   - {fileID: 1760802278}
   m_Father: {fileID: 1893565477}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &376454554
 PrefabInstance:
@@ -37736,7 +37704,6 @@ GameObject:
   - component: {fileID: 1012757554}
   - component: {fileID: 1012757557}
   - component: {fileID: 1012757556}
-  - component: {fileID: 1012757555}
   m_Layer: 5
   m_Name: HealthPool
   m_TagString: Untagged
@@ -37763,18 +37730,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 180, y: 180}
   m_Pivot: {x: 0.5, y: 0}
---- !u!114 &1012757555
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1012757553}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6c5621ea73f97e50b9d11053039e3763, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1012757556
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -41442,7 +41397,7 @@ MonoBehaviour:
   HIGHLIGHT_NORMAL: {r: 1, g: 1, b: 1, a: 0.08}
   HIGHLIGHT_ERROR: {r: 1, g: 0, b: 0, a: 0.16}
   ITEM_BACKGROUND: {r: 0, g: 0, b: 1, a: 0.1}
-  inventory: {fileID: 0}
+  inventory: {fileID: 236503492}
 --- !u!1001 &1086236982
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -42363,9 +42318,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 745e3ef0cf65b3b6f8fc65284f42f978, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerPosition: {fileID: 0}
-  parent: {fileID: 0}
-  hoverShader: {fileID: 0}
+  playerPosition: {fileID: 236503506}
+  parent: {fileID: 475187676}
+  hoverShader: {fileID: 4800000, guid: 36d222f782f97d7ddb7e8bf1ee77d079, type: 3}
   itemScaleFactor: 1.2
 --- !u!1001 &1113821527
 PrefabInstance:
@@ -52878,7 +52833,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df4e7cba018a6b075bb52f572a6b41b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  watchPosition: {fileID: 0}
+  watchPosition: {fileID: 236503506}
 --- !u!1001 &1376152591
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -62618,36 +62573,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1587743573}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1588259129
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1588259130}
-  m_Layer: 0
-  m_Name: GameObject (1)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1588259130
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1588259129}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 41.75, y: -3.4, z: -25.88}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 31950436}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1588674665
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -70838,7 +70763,7 @@ Transform:
   - {fileID: 1200358994}
   - {fileID: 919128479}
   m_Father: {fileID: 1893565477}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1818124389
 MonoBehaviour:
@@ -74154,7 +74079,6 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 31950436}
   - {fileID: 1818124388}
   - {fileID: 374421691}
   m_Father: {fileID: 0}
@@ -83628,6 +83552,11 @@ PrefabInstance:
       propertyPath: Loop
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5383353183333778782, guid: 9fe18ddcfd86019428ecd6b0776c57ef,
+        type: 3}
+      propertyPath: RespawnDelay
+      value: 120
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9fe18ddcfd86019428ecd6b0776c57ef, type: 3}
 --- !u!1001 &7615693405754981964
@@ -83712,6 +83641,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 374421691}
     m_Modifications:
+    - target: {fileID: 3488104441146577912, guid: 8bfad99a520b13e4f995f080c258a15a,
+        type: 3}
+      propertyPath: RespawnDelay
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 8939340413877561792, guid: 8bfad99a520b13e4f995f080c258a15a,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -83826,6 +83760,11 @@ PrefabInstance:
         type: 3}
       propertyPath: healthUpdate.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 8939340413877561803, guid: 8bfad99a520b13e4f995f080c258a15a,
+        type: 3}
+      propertyPath: maxHP.Initvalue
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8bfad99a520b13e4f995f080c258a15a, type: 3}

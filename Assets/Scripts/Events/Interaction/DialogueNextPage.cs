@@ -28,7 +28,7 @@ public class DialogueNextPage : MonoBehaviour
         for (int page = 1; page <= maxPage; page++)
         {
             dialogueText.pageToDisplay = page;
-            yield return new WaitForSeconds(1.0f);
+            yield return new WaitForSeconds(2.5f);
         }
         dialogueText.SetText("");
         panel.SetActive(false);
