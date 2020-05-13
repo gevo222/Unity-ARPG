@@ -13,9 +13,12 @@ public class HealthOrb : MonoBehaviour {
 
 	public void OnUpdateHealth(Transform parent, int hp){
 
-		var maxSize = rectTransform.sizeDelta.y - 10.0f;
-		var offset = (hp / 100.0f) * maxSize;
+		var maxSize = rectTransform.sizeDelta.x; //assume the orb is circle, use x
+		var height = (hp / 100.0f) * maxSize;
+		if(height < 10.0f && hp > 0){
+			height = 10.0f;
+		}
 
-		rectTransform.anchoredPosition = new Vector2(0, -offset);
+		rectTransform.sizeDelta = new Vector2(maxSize, height);
 	}
 }
