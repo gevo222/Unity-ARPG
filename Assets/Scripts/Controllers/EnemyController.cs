@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.AI;
 using System.Collections;
 
@@ -10,11 +10,31 @@ public class EnemyController : MonoBehaviour
 
     Transform player;
     NavMeshAgent agent;
+    CharacterStats playerStats;
+    CharacterStats enemyStats;
+    int elapsedTime;
+    Animator playerAnim;
+    Animator enemyAnim;
+    AudioSource fightMusic;
+    public float attackSpeed = 1f;
+    private float attackCooldown = 0f;
+
+
 
     void Start()
     {
         player = Player.instance.transform;
         agent = GetComponent<NavMeshAgent>();
+        playerStats = player.GetComponent<CharacterStats>();
+        enemyStats = GetComponent<CharacterStats>();
+        playerAnim = player.GetComponent<Animator>();
+        enemyAnim = GetComponent<Animator>();
+
+
+        if (transform.tag == "Boss")
+        {
+            fightMusic = GetComponent<AudioSource>();
+        }
     }
 
     void Update()
@@ -25,16 +45,54 @@ public class EnemyController : MonoBehaviour
         {
             // Follow the player
             agent.SetDestination(player.position);
+            enemyAnim.SetBool("Run Forward", true);
+
+            // Enable Boss Music
+            if (transform.tag == "Boss")
+            {
+                fightMusic.enabled = true;
+            }
+
+            attackCooldown -= Time.deltaTime;
 
             // If already in range, always face the player
             if (distance <= agent.stoppingDistance)
             {
                 FacePlayer();
+
+                HealOutOfCombat.playerInCombat = true;
+                enemyAnim.SetBool("Run Forward", false);
+
+                if (attackCooldown <= 0f)
+                {
+                    //Damage player's stats
+                    enemyStats.Attack(playerStats);
+
+                    //Damage enemy's stats
+                    playerStats.Attack(enemyStats);
+                    // Deal double damage with cyclone
+                    if (playerAnim.GetBool("Q"))
+                    {
+                        playerStats.Attack(enemyStats);
+                    }
+
+                    attackCooldown = 1f / attackSpeed;
+                }
+                //Play attack animation for player
+                playerAnim.SetBool("RClick", true);
+                //Play attack animation for enemy
+                enemyAnim.SetTrigger("Stab Attack");
+
+            }
+            else
+            {
+                    playerAnim.SetBool("RClick", false);
+                    HealOutOfCombat.playerInCombat = false;
             }
         }
+
     }
 
-    // Face the player
     void FacePlayer()
     {
         Vector3 direction = (player.position - transform.position).normalized;
@@ -42,7 +100,6 @@ public class EnemyController : MonoBehaviour
         transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
     }
 
-    // Show aggro range
     void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.blue;

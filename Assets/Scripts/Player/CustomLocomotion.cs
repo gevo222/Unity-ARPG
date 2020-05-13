@@ -71,8 +71,8 @@ public class CustomLocomotion : MonoBehaviour {
         // make invinsible for a few frames when rolling?
 
         // Attack
-        bool RClick = Input.GetMouseButton(1);
-        anim.SetBool("RClick", RClick);
+       // bool RClick = Input.GetMouseButton(1);
+       // anim.SetBool("RClick", RClick);
     }
 
     void OnAnimatorMove ()
