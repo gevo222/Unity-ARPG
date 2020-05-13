@@ -9950,9 +9950,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 417cb26418b4137dca3110b508e8e9ab, type: 2}
   - {fileID: 11400000, guid: 88b3c77684f5e478894b27d7f37965d6, type: 2}
   - {fileID: 11400000, guid: bdabf253c59b0b4948923e90f2702778, type: 2}
-  - {fileID: 11400000, guid: 19ddd9da73c5103db90d6cca743845fd, type: 2}
-  - {fileID: 11400000, guid: 73648f1bf384f3563b604ede88fd0ab5, type: 2}
   - {fileID: 11400000, guid: d2c91da2ff5dca14dae6f358d1befb49, type: 2}
+  - {fileID: 11400000, guid: f52eabe85d0a13e58a9dfb8865ad0592, type: 2}
+  - {fileID: 11400000, guid: 19ddd9da73c5103db90d6cca743845fd, type: 2}
 --- !u!114 &233453042
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26122,7 +26122,7 @@ Canvas:
   serializedVersion: 3
   m_RenderMode: 1
   m_Camera: {fileID: 289254835}
-  m_PlaneDistance: 3
+  m_PlaneDistance: 0.5
   m_PixelPerfect: 1
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
