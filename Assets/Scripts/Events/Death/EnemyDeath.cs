@@ -8,13 +8,15 @@ public class EnemyDeath : MonoBehaviour, Death
 {
     public float RespawnDelay = 1f;
     public Vector3 RespawnLocation = Vector3.zero;
-
+    public Player player;
     private Animator anim;
     private EnemyController controller;
     private CharacterStats stats;
     private Renderer renderer;
     private NavMeshAgent agent;
     private Collider collider;
+    public Level lvl;
+    public Animator playerAnim;
 
     void Start()
     {
@@ -24,6 +26,9 @@ public class EnemyDeath : MonoBehaviour, Death
         renderer = gameObject.GetComponent<Renderer>();
         agent = gameObject.GetComponent<NavMeshAgent>();
         collider = gameObject.GetComponent<Collider>();
+        player = Player.instance;
+        lvl = player.GetComponent<Level>();
+        playerAnim = player.GetComponent<Animator>();
     }
 
     void Death.die()
@@ -50,5 +55,9 @@ public class EnemyDeath : MonoBehaviour, Death
         stats.ResetHealth();
         SetComponentEnabled(true);
         transform.position = RespawnLocation;
+        Level.currentXP += 1;
+        playerAnim.SetBool("RClick", false);
+
+        
     }
 }
