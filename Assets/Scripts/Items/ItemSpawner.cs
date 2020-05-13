@@ -48,10 +48,16 @@ public class ItemSpawner : MonoBehaviour {
 		return obj;
 	}
 
-	public GameObject SpawnNearPlayer(ItemObject item){
+	public GameObject SpawnNear(ItemObject item, Vector3 position, float factor = 1.0f){
 		var nearby = new Vector3(
-			Random.Range(-2.0f, 2.0f), Random.Range(1, 4), Random.Range(-2.0f, 2.0f)
+			Random.Range(-1.5f, 1.5f) * factor,
+			Random.Range(1, 3),
+			Random.Range(-1.5f, 1.5f) * factor
 		);
-		return Spawn(item, playerPosition.position + nearby);
+		return Spawn(item, position + nearby);
+	}
+
+	public GameObject SpawnNearPlayer(ItemObject item){
+		return SpawnNear(item, playerPosition.position);
 	}
 }
