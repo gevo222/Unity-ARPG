@@ -15,6 +15,7 @@ public class EnemyDeath : MonoBehaviour, Death
     private Renderer renderer;
     private NavMeshAgent agent;
     private Collider collider;
+	private bool isDead = false;
     public Level lvl;
     public Animator playerAnim;
 
@@ -33,11 +34,15 @@ public class EnemyDeath : MonoBehaviour, Death
 
     void Death.die()
     {
-        StartCoroutine(Dead());
+		if(!isDead){
+			isDead = true;
+			StartCoroutine(Dead());
+		}
     }
 
     private void SetComponentEnabled(bool value)
     {
+		isDead = !value;
         anim.enabled = value;
         controller.enabled = value;
         stats.enabled = value;
@@ -49,20 +54,25 @@ public class EnemyDeath : MonoBehaviour, Death
     private IEnumerator Dead()
     {
         anim.Play("Die");
+        playerAnim.SetBool("RClick", false);
+
+		collider.enabled = false;
+		controller.enabled = false;
+		agent.enabled = false;
+        stats.ResetHealth();
+
         yield return new WaitForSeconds(1.5f);
 
+        SetComponentEnabled(false);
         Level.currentXP += 1;
 		if(Random.Range(0, 100) <= 30){
 			ItemSpawner.main.SpawnNear(
 				ItemObject.GetRandomItem(), transform.position
 			);
 		}
-        SetComponentEnabled(false);
 
         yield return new WaitForSeconds(RespawnDelay);
-        stats.ResetHealth();
-        SetComponentEnabled(true);
         transform.position = RespawnLocation;
-        playerAnim.SetBool("RClick", false);
+        SetComponentEnabled(true);
     }
 }

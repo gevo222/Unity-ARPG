@@ -26,6 +26,7 @@ public class DamageNumbers : MonoBehaviour
     {
         var prev = parent.gameObject.GetComponent<CharacterStats>().currentHP;
         var damageTaken = prev - value;
+		if (damageTaken <= 0) return;
 
         var textObj = pool.Dequeue();
         textObj.transform.position = parent.position + Vector3.up * 2;
