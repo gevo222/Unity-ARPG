@@ -7,4 +7,4 @@ A Unity Action RPG game built with C#.
 * Creating animations in Unity.
 * Using Unity's animator system.
 * Utilizing Github version control with Unity.
-* Create and handle events.
+* Creating and handling Events.
