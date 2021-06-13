@@ -12,10 +12,10 @@ A Unity Action RPG game built with C#.
 * Utilizing Github version control with Unity.
 
 ## Features
-* Combat System.
-* Equippable Items and Loot.
-* Stats and Leveling.
-* NPC Interactions.
-* 3 custom abilities.
-* Respawning enemies.
-* Boss fight.
+* Combat System
+* Equippable Items and Loot
+* Stats and Leveling
+* NPC Interactions
+* 3 custom abilities
+* Respawning enemies
+* Boss fight
