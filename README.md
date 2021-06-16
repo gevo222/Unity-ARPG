@@ -16,6 +16,6 @@ A Unity Action RPG game built with C#.
 * Equippable Items and Loot
 * Stats and Leveling
 * NPC Interactions
-* 3 custom abilities
+* Custom abilities
 * Respawning enemies
 * Boss fight
